@@ -1,2 +1,2 @@
 # neo
-AI 응용 클라우드 기반 풀스택 개발자 과정
+AI Cloud Full Stack Developer
