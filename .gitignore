@@ -5,3 +5,5 @@
 c/*
 !c/*.c
 !c/lib
+!c/makefile
+c/makefile/*.o
