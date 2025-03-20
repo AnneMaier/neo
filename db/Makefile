@@ -8,3 +8,5 @@ stop:
 status:
 	lsnrctl status
 	netstat -ntlp
+reinstall:
+	./reinstall.sh
