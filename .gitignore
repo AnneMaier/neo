@@ -23,3 +23,7 @@ scala/**/target
 # Maven
 
 maven/**/target
+
+# nodejs
+node/**/node_modules
+node/**/package-lock.json
