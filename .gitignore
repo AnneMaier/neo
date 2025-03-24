@@ -19,3 +19,7 @@ c/*.o
 # Scala
 scala/**/project
 scala/**/target
+
+# Maven
+
+maven/**/target
