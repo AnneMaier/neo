@@ -15,4 +15,3 @@ INSERT INTO hr.neotbl VALUES (idseqneo.nextval, '조유빈', NULL);
 INSERT INTO hr.neotbl VALUES (idseqneo.nextval, '주서연', NULL);
 INSERT INTO hr.neotbl VALUES (idseqneo.nextval, '주서영', NULL);
 INSERT INTO hr.neotbl VALUES (idseqneo.nextval, '현휘찬', NULL);
-
