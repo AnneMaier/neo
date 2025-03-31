@@ -1,5 +1,5 @@
 {
-  "name": "mysql2-web",
+  "name": "mysql2-sync-web-dw",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
