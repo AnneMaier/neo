@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mysql2-example</title>
+</head>
+<body>
+    <h1>Json-server - CRUD</h1>
+    <form name="userForm" target="targetURL">
+        <input type="button" value="GET Data" onclick='document.targetURL.location.href="/getData"'>
+        &nbsp; &nbsp;&nbsp;
+        <p>ID &nbsp; <input type="text" name="st_id" size="10"></p>
+        <p>NAME &nbsp; <input type="text" name="name" size="10"></p>
+        <p>
+        <input type="submit" method="post"value="PostData" onclick='document.targetURL.location.href="/postData"' /> &nbsp; &nbsp
+        <button type="submit" mehod="put"  formaction="putData">putData </button> &nbsp;&nbsp;
+        <button type="submit" method=   
+
+    </form>
+    <hr>
+    <iframe name="targetURL" width="90%" height="500" style="border:none;" src="http://192.168.1.28:8000/Hello">
+    </iframe>
+     
+</body>
+</html>
