@@ -1,61 +1,56 @@
-const { connect } = require('http2');
-var mysql = require('mysql2/promise');
-const env = require('dotenv').config({ path: "../../.env" }); 
+const mysql = require("mysql2/promise");
+const env = require('dotenv').config({ path: "../../.env" });
 
 const db = async () => {
-    try{
+    try {
+        // db connection
         let connection = await mysql.createConnection({
-        
             host: process.env.host,
             user: process.env.user,
             port: process.env.port,
             password: process.env.password,
-            database: process.env.databasehost
+            database: process.env.database
         })
-        
-        let [rows, fileds] = await connection.query('select * from st_info');
+
+        //select query
+        let [rows, fields] = await connection.query("select * from st_info");
         console.log(rows);
 
+        // make insert data
         let data = {
-            st_id: 202599,
+            st_id: "202499",
             name: "Moon",
             dept: "Computer"
-        };
+        }
 
+        // inserted data's id
         let insertId = data.st_id;
 
-        // inset query
-        [rows, fileds] = await connection.query("insert into st_info values ?", data);
-        console.log("Data is inserted: " + insertId);
-        [rows, fileds] = await connection.query("select * from st_info where ST_ID = ?", [insertId]);
-        console.log(rows);
-
+        //insert query
+        [rows, fields] = await connection.query("insert into st_info set ?", data);
+        console.log("\nData is inserted~!!");
         // select * query for inserted data
-        [rows, fileds] = await connection.query("select * from st_info where ST_ID = ?", [insertId]);
+        [rows, fields] = await connection.query("select * from st_info where st_id=?", insertId);
         console.log(rows);
 
         // update query
-        [rows, fileds] = await connection.query("update st_info dept = ? where ST_ID = ?", ["Game", insertId]);
-        console.log("Data is updated: " + insertId);
-        [rows, fileds] = await connection.query("select * from st_info where ST_ID = ?", [insertId]);
-        console.log(rows);
+        [rows, fields] = await connection.query("update st_info set dept=? where st_id=?", ["Game", insertId]);
+        console.log("\nData is Updated~!!");
 
         // select * query for updated data
-        [rows, fileds] = await connection.query("select * from st_info where ST_ID = ?", [insertId]);
+        [rows, fields] = await connection.query("select * from st_info where st_id=?", insertId);
         console.log(rows);
 
         // delete query
-        [rows, fileds] = await connection.query("delete from st_info where ST_ID = ?", [insertId]);
-        console.log("Data is deleted: " + insertId);
-        [rows, fileds] = await connection.query("select * from st_info where ST_ID = ?", [insertId]);
+        [rows, fields] = await connection.query("delete from st_info where st_id=?", insertId);
+        console.log('\nData is Deleted~!!');
+
+        // select * query for updated data
+        [rows, fields] = await connection.query("select * from st_info");
         console.log(rows);
 
-        // select * query for deleted data
-        [rows, fileds] = await connection.query("select * from st_info where ST_ID = ?", [insertId]);
-        console.log(rows);
-
-    }catch(err){
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 }
 
