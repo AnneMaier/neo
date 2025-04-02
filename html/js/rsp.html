@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가위 바위 보 게임</title>
+</head>
+<body>
+    <h3>가위 바위 보 게임</h3>
+    <script>
+        document.write("<hr>");
+
+        let user;
+        while (true) {
+            user = parseInt(prompt("1~3 사이 중 하나 입력하세요. 1. 가위 2. 바위 3. 보")) - 1;
+            if (user >= 0 && user <= 2) {
+                break;
+            } else {
+                alert("1, 2, 3 중 하나를 입력해주세요.");
+            }
+        }
+
+        let com = Math.floor(Math.random() * 3);
+        let li = ["가위", "바위", "보"];
+        document.write("User : " + "\t" + li[user] + "\t" + "vs Com : " + li[com]);
+        document.write("<br>");
+
+        if (user == com) {
+    document.write("당신은 비겼습니다.");
+} else if ((user == 0 && com == 2) || (user == 1 && com == 0) || (user == 2 && com == 1)) {
+    document.write("당신이 이겼습니다.");
+} else {
+    document.write("당신이 졌습니다.");
+}
+    </script>
+</body>
+</html>

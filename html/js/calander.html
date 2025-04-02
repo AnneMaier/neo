@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <style>
+        .sun {
+            color: red;
+        }
+
+        .sat {
+            color: blue;
+        }
+
+        body {
+            font: bold 20px monaco, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-style: solid;
+            margin: 0 auto;
+            border: 1px solid black; 
+            
+        }
+
+        p {
+            text-align: center;
+        }
+
+        td, th {
+            text-align: center;
+            font-size: bold 20px monaco, sans-serif;
+            padding: 5px;
+            height: 20px;
+            border: 1px solid black;
+        }
+
+        thead {
+            background: lightblue;
+            color: black;
+        }
+
+        tbody td:hover {
+            background: papayawhip;
+        }
+    </style>
+</head>
+<body>
+    <h3>Calendar</h3>
+    <hr>
+    <script>
+        let ipt = prompt("원하는 연도와 달을 입력하세요");
+        let year = ipt.substr(0, 4);
+        let month = ipt.substr(4, 2);
+        let startDay = new Date(year + "-" + month).getDay();
+        let endDay = new Date(parseInt(year), parseInt(month), 0).getDate();
+        let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]; 
+        let i = 0;
+
+        document.write("<p>" + year + "년/" + month + "월" + "</p>");
+        document.write("<br>");
+        document.write("<table>");
+        document.write("<thead>");
+        document.write("<tr>");
+
+        while (i < 7) {
+            if (i === 0) {
+                document.write("<th class='sun'>" + days[i] + "</th>");
+            } else if (i === 6) {
+                document.write("<th class='sat'>" + days[i] + "</th>");
+            } else {
+                document.write("<th>" + days[i] + "</th>");
+            }
+            i++;
+        }
+        document.write("</tr>");
+        document.write("</thead>");
+        document.write("<tbody>");
+
+        let day = 1;
+        let cell = 1;
+
+        for (let k = 0; k < startDay; k++) {
+            document.write("<td></td>");
+            cell++;
+        }
+
+        while (day <= endDay) {
+            if (cell % 7 === 1) {
+                document.write("<tr>");
+            }
+
+            document.write("<td>" + day + "</td>");
+
+            if (cell % 7 === 0) {
+                document.write("</tr>");
+            }
+            day++;
+            cell++;
+        }
+
+        if ((cell - 1) % 7 !== 0) {
+            document.write("</tr>");
+        }
+
+        document.write("</tbody>");
+        document.write("</table>");
+    </script>
+</body>
+</html>

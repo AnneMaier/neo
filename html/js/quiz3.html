@@ -1,0 +1,30 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            let n =5 ;
+            let array = new Array(n);
+            document.write("배열의 길이: " + n + "<br>")
+            let reverse = new Array(n);
+            for(i=0; i<n; i++){
+                var su = Math.floor(Math.random() * 100 +1);
+                array[i]=su;
+            }
+            document.write("원래 배열의 값:" + array + "<br>")
+            // for(j=0; j<n; j++){
+        
+            //     reverse[j] = array[n-j-1]
+            // }
+
+            // array = reverse
+         
+            document.write("역배열의 값: " + array)
+        </script>
+        
+    </body>
+    </html>
