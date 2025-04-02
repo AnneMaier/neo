@@ -22,7 +22,12 @@
             // }
 
             // array = reverse
-         
+            for (let i=0, j= array.length-1; i<j; i++,j--){
+                let temp = array[i]
+                array[i] = array[j]
+                array[j] = temp;
+            }
+
             document.write("역배열의 값: " + array)
         </script>
         
