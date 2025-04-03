@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>quiz4</h3>
+    <h4>랜덤 배열 생성 후 배열의 원소 합이 3*n 이상이면 끝내기</h4>
+    <hr>
+
+    <script>
+            let n =5 ;
+            let array = new Array();
+            document.write("배열의 최대 길이: " + n + "<br>")
+            let sum = 0;
+            let idx = -1
+            for(i=0; i<n; i++){
+                var su = Math.floor(Math.random() * 10) + 1;;
+                if(sum > 3*(i+1)) break 
+                array[i]=su;
+                sum += array[i]
+                idx+=1
+            }
+
+            document.write("전체 배열: " + array + "<br>")
+            document.write("종료 시점의 인덱스: " + "array[" + idx + "]" + "<br>") 
+            document.write("SUM: " + sum + "<br>")
+        
+
+
+
+
+
+    </script>
+    
+</body>
+</html>

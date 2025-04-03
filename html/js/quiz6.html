@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>quiz6</h3>
+    <h4</h4>
+    <hr>
+
+    <script>
+        while(true){
+            let ipt = prompt("배열 길이,최대값을 입력하세요");
+            let n = parseInt(ipt.split(",")[0]);
+            let max = parseInt(ipt.split(",")[1]);
+            if(n > max){
+                alert("배열 길이는 최대값보다 작은 수를 입력해줘");
+                continue
+            }
+            else{
+                let array = new Array(n);
+                let sum = 0;
+                for(i=0; i<n; i++){
+                    while(true){
+                        var random_number = Math.floor(Math.random() * max) + 1;;
+                        if(!(array.includes(random_number))) break
+                    }       
+                array[i]=random_number;}
+
+
+        document.write(`배열의 길이: ${array.length} <br>`)
+        document.write(`전체 배열: ${array}`)
+        break;
+            }
+        }
+        
+    
+           
+
+
+    </script>
+    
+</body>
+</html>
