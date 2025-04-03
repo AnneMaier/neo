@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>소수 판별기</h3>
+    <hr>
+
+    <script>
+        let ipt = parseInt(prompt("숫자 입력하세요"));
+    
+            
+        function isprime(n){
+            if (n == 1) return false
+            let i = 1
+            while(i < n-1){
+                i++;
+                if(n % i == 0){
+                    return false;
+                    break
+                }
+            }
+            return true;        
+        }
+
+
+        if(isprime(ipt)){
+            document.write(`${ipt}은 소수입니다.`)
+        }
+        else{
+             document.write(`${ipt}은 소수아닙니다.`)
+        }
+       
+           
+
+
+    </script>
+    
+</body>
+</html>

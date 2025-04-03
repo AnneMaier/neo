@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>인풋</h3>
+    <hr>
+
+    <script>
+        let ipt = parseInt(prompt("How much number input?: "));
+        let ipt2 = (prompt("Input your numbers: "));
+        let building = ipt2.split(" ").map(Number);
+
+        function sum(array){
+            let result = 0;
+            for(let i=0; i<array.length; i++){
+                result += array[i];
+            }
+            return result;
+        }
+
+        function min(array){
+            let result = array[0];
+            for(let i=0; i<array.length; i++){
+                if(result > array[i]) result = array[i];
+            }
+            return result;
+        }
+
+        document.write("building : " + building + "<br>");
+        document.write("minimum of building : " + min(building) + "<br>");
+        document.write("minimum of building * n : " + min(building)*ipt + "<br>");
+        document.write("sum of building : " + sum(building) + "<br>");
+        document.write("sum of building - min of building * n : " + (sum(building) - min(building)*ipt));
+
+    </script>
+
+</body>
+</html>

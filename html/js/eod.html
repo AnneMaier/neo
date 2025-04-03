@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>홀짝 판별기</h3>
+    <hr>
+
+    <script>
+        let ipt = parseInt(prompt("숫자 입력하세요"));
+    
+            
+        function eod(n){
+            if(n%2 == 0) return true;
+            else return false
+            
+        }
+        if(eod(ipt)){
+            document.write(`${ipt}은 짝수입니다.`)
+        }
+        else{
+             document.write(`${ipt}은 홀수입니다.`)
+        }
+       
+           
+
+
+    </script>
+    
+</body>
+</html>

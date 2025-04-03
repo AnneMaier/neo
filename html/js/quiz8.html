@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>quiz</h3>
+    <h4>리터럴 표기법으로 Book 객체 만들기</h4>
+    <hr>
+
+    <script>
+            let book = {
+                title : "스며드는 리눅스",
+                author : "문준현",
+                totalPage : 350,
+                category : "IT",
+                price : "30000",
+                leftover : 350,
+                rentalState : 1,
+                rentalUser : "",
+                rentalDay : 0,
+                reading : function(page){
+                    this.leftover -= page;
+                    return this.leftover;
+                
+                },
+                rental : function(user, day){
+                    this.rentalState = 0;
+                    this.rentalUser = user;
+                    this.rentalDay = day;
+                    return this.rentalState;
+                }
+              
+            }
+
+            document.write("Title : "+book.title + "<br>");
+            document.write(cdbook.author + "<br>");
+
+            document.write(book.category + "<br>");
+            document.write(book.price + "<br>");
+            document.write(book.leftover + "<br>");
+
+
+
+    </script>
+
+    
+</body>
+</html>
