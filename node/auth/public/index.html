@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sync-Mysql</title>
+    <link type="text/css" rel="stylesheet" href="mystyle.css">
 </head>
 <body>
-    <h1>Login</h1>
+    <h3>Login Page</h3>
     <hr>
-
+    <div class="box">
     <form action="/login" method="post">
-        ID: <input type="text" name="id"><br>
-        Password: <input type="password" name="pw"><br>
+        <div>
+        <p>ID: <input type="text" name="id"></p>
+        <p>Password: <input type="password" name="pw"></p>
+        </div>
+        <div class="box-inner">
         <input type="submit" value="Login">
         <input type="reset" value="Reset">
+    </div>
     </form>
     <button onclick="location.href='/register.html'">회원 가입</button>
-     
+</div>
 </body>
 </html>
