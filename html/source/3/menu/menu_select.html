@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+    function menuGenre(){
+        alert(document.getElementById('menu_genre').value)
+    }
+
+</script>
+<body>
+    <h1>식사 메뉴 및 시간 설정 프로그램</h1>
+    <form type="GET" href="192.168.1.28:5000/source/3/menu/json/data.json">
+        <table border="1" style="width: 320px;">
+            <caption>일정 정하기</caption>
+            <thead>
+                <tr>
+                    <th>날짜</th>
+                    <th>시간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input id="date" type="date" value="2022-03-01"><br> </td>
+                    <td><input id="time" type="time" value="12:30"><br> </td>
+                </tr>
+            </tbody>
+        </table>
+      
+        <table border="1" style="width: 320px;"> 
+            <caption>메뉴 정하기</caption>
+            <thead name="menu_genre">
+                <th><input type="radio" value="china_food">중식</th>
+                <th><input type="radio" value="western_food">양식</th>
+                <th><input type="radio" value="korean_food">한식</th>
+                <th><input type="radio" value="ext" >기타</th>
+            </thead>
+            <tbody>
+                <td>
+                    <select>
+                        <option value="jajangmyun">짜장면
+                        <option value="tangsuyuk">탕수육
+                        <option value="jjambbong">짬뽕
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="pasta">파스타
+                        <option value="nyokki">뇨끼
+                        <option value="stake">스테이크
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="kimchijjigae">김치찌개
+                        <option value="dwanjangjjigae">된장찌개
+                        <option value="gukbap">국밥
+                    </select>
+                </td>
+                <td>
+                    <input type="text" value="원하는 메뉴 적으세요!" style="width: 60px; font-size: 9px;">
+                </td>
+            </tbody>
+            
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        <input type="submit" value="전송">
+                        <input type="reset" value="취소">
+                        <button onclick="menuGenre()">test</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </form>
+
+
+
+    
+</body>
+</html>
