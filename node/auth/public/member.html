@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync-Mysql</title>
+</head>
+<body>
+    <h1>관리자 페이지</h1>
+    <form action="/insert" name="userForm" method="post" target="targetURL">
+        <p>UserID &nbsp; <input type="text" name="id" size="10"></p>
+        <p>Password &nbsp; <input type="text" name="pw" id="pw" size="10"></p>
+        <input type="button" value="get select" onclick='document.targetURL.location.href="/select"'/>
+        <input type="button" value="get selectQuery" onclick='document.targetURL.location.href=
+        "/selectQuery?id="+document.userForm.id.value'/>
+        <br>
+        <input type="submit" value="get insert">
+        <input type="submit" value="get update" formaction="/update">
+        <input type="submit" value="get delete" formaction="/delete">
+
+
+
+    </form>
+    <hr>
+    <iframe name="targetURL" width="90%" height="500" style="border:none;" src="http://192.168.1.28:8000/Hello">
+    </iframe>
+     
+</body>
+</html>

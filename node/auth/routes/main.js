@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('sync-mysql');
+const e = require('express');
 const env = require('dotenv').config({ path: "../../.env" });
 
 const app = express();
@@ -19,37 +20,68 @@ var connection = new mysql({
 });
 
 app.get('/Hello', (req, res) => {
-    res.send('Hello World!!');
-});
+    res.send('Hello World!!')
+})
 
-
-
-
-// select all rows from st_info table
 app.get('/select', (req, res) => {
-    let result = connection.query('select * from user');
-    res.send(result);
+    const result = connection.query('select * from user');
     console.log(result);
-});
-
-
+    res.send(result);
+})
 
 app.get('/selectQuery', (req, res) => {
-    let result = connection.query('select * from user where userid=?', [id]);
-    res.send(result);
+    const id = req.query.id;
+    const result = connection.query('select * from user where userid = ?', [id]);   
     console.log(result);
-});
+    res.send(result);
+})
 
+app.post('/insert', (req, res) => { 
+    const { id, pw } = req.body;
+    const result = connection.query('insert into user values(?, ?)', [id, pw]);
+    console.log(result);
+    res.redirect('/member.html');
+})
 
+app.post('/update', (req, res) => {
+    const { id, pw } = req.body;
+    const result = connection.query('update user set passwd = ? where userid = ?', [pw, id]);
+    console.log(result);
+    res.redirect('/member.html');
+})
 
-app.post('/insert', (req, res) => {
-    const { id, pw} = req.body;
-    console.log(id)
-    const result = connection.query("insert into user values (?, ?)",
-        [id, pw]);
-        res.redirect('/selectQuery?id='+req.body.id);
+app.post('/delete', (req, res) => {
+    const id = req.body.id;
+    const result = connection.query('delete from user where userid = ?', [id]);
+    console.log(result);
+    res.redirect('/member.html');
+})
+
+app.post('/login', (req, res) => {
+    const { id, pw } = req.body;
+    const result = connection.query('select * from user where userid = ? and passwd = ?', [id, pw]);
+    console.log(result[0])
+    if(result.length ==0){
+    res.redirect('/error.html');
+    }
+    const admins = ["root", "adming"]
+    if(admins.includes(result[0]["userid"])){
+    res.redirect('/member.html');}
+    else{
+    res.redirect('/main.html');
+    }
+
+})
+
+app.post('/register', (req, res) => { 
+    const { id, pw } = req.body;
+    const result = connection.query('insert into user values(?, ?)', [id, pw]);
+    console.log(result);
+    res.redirect('/');
 })
 
 
-module.exports = app;
 
+
+
+module.exports = app;
