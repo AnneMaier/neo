@@ -1,26 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync-Mysql</title>
-    <link type="text/css" rel="stylesheet" href="mystyle.css">
-</head>
-<body>
-    <h3>Login Page</h3>
-    <hr>
-    <div class="box">
-    <form action="/login" method="post">
-        <div>
-        <p>ID: <input type="text" name="id"></p>
-        <p>Password: <input type="password" name="pw"></p>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Login</title>
+        <link type="text/css" rel="stylesheet" href="mystyle.css">
+    </head>
+    <body>
+        <h1>Login</h1>
+        <hr />
+        <div class="box">
+        <form action="/login" method="post" name="userForm">
+            <div>
+                <p>Userid &nbsp;<input type="text" name="id" size=10></p>
+                <p>Password &nbsp;<input type="password" name="pw" size=10></p>
+            </div>
+            <div class="box-inner">
+                <input type="submit" value="Login" />&nbsp;&nbsp;
+                <input type="reset" value="Reset"/><br><br>
+                <a href="register.html">Register</a>
+            </div>
+        </form>
         </div>
-        <div class="box-inner">
-        <input type="submit" value="Login">
-        <input type="reset" value="Reset">
-    </div>
-    </form>
-    <button onclick="location.href='/register.html'">회원 가입</button>
-</div>
-</body>
+    </body>
 </html>
