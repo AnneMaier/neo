@@ -135,8 +135,36 @@ app.get('/select', (req, res) => {
     }
 })
 
+app.post('/select', (req, res) => {
+    const result = connection.query('select * from user');
+    console.log(result);
+    // res.send(result);
+    if (result.length == 0) {
+        template_nodata(res);
+    } else {
+        template_result(result, res);
+    }
+})
+
 app.get('/selectQuery', (req, res) => {
     const id = req.query.id;
+    if ( id == "" ) {
+        res.write("<script>alert('user is empty')</script>");
+    } else{
+
+    
+    const result = connection.query('select * from user where userid = ?', [id]);   
+    console.log(result);
+    // res.send(result);
+    if (result.length == 0) {
+        template_nodata(res);
+    } else {
+        template_result(result, res);
+    }
+}})
+
+app.post('/selectQuery', (req, res) => {
+    const id = req.body.id;
     if ( id == "" ) {
         res.write("<script>alert('user is empty')</script>");
     } else{

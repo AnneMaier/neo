@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function check(){
+            let ta = document.querySelector('input[name="ta"]:checked').value;
+            let input = document.getElementById("input").value;
+            let output = document.getElementById("output");
+            if (input.length != 3){
+                output.innerHTML = "3자리 문자 또는 숫자를 입력해줘요 제발";
+                return;
+            }else{
+            let result = "";
+            list = new Array();
+            for (let i=0; i<3; i++){
+                list[i] = input.split("")[i];
+            }
+            if (list[0] == list[2]){
+                output.innerHTML = "입력하신 문자는 plaindrome입니다.";
+            }else{
+                output.innerHTML = "입력하신 문자는 plaindrome이 아닙니다.";
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <h3>plaindrome</h3>
+    <hr>
+    <form>
+        <input type="text" id="input" placeholder="숫자/문자 3글자">
+        <input type="button" value="확인" onclick="check();">
+        <p>
+            <input type="radio" name="ta" value="0" checked> 숫자
+            <input type="radio" name="ta" value="1"> 문자
+        </p>
+    </form>
+    <div style="margin: 10px;">
+        <span id="output">3자리 문자 또는 숫자를 입력하세요</span>
+    </div>
+    
+</body>
+</html>

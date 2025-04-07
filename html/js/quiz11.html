@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가위 바위 보 게임</title>
+    <script> 
+        function game(){
+            let user = document.getElementsByName("user")
+            for (let i = 0; i < user.length; i++) {
+                if (user[i].checked) {
+                    user = i;
+                    break;
+                }
+            }
+            let com = Math.floor(Math.random() * 3);
+            let result = "";
+            let li = ["가위", "바위", "보"];
+            result += "user : " + li[user] + " vs com : " + li[com] + "\n";
+            if (user == com) {
+    result += ("당신은 비겼습니다.");
+} else if ((user == 0 && com == 2) || (user == 1 && com == 0) || (user == 2 && com == 1)) {
+    result += ("당신이 이겼습니다.");
+} else {
+   result += ("당신이 졌습니다.");
+}
+        alert(result);
+        }
+    </script>
+</head>
+<body>
+    <h3>가위 바위 보 게임</h3>
+    <hr>
+    <form >
+        <input  type="radio" name="user" value="0" > 가위
+        <input  type="radio" name="user"  value = "1"> 바위
+        <input  type="radio" name="user"  value = "2"> 보
+        <input type="button" value="게임 시작" onclick="game()";>
+    </form>
+
+    </script>
+</body>
+</html>

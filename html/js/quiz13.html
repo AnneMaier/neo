@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let state = 1;
+        function toggle(){
+            state = !state
+            let mySpan = document.getElementById("mySpan");
+            if(state==1){
+                mySpan.style.color = "green";
+                mySpan.style.fontSize = "30px";
+                mySpan.style.display = "block";
+                mySpan.style.width = "10em";
+                mySpan.style.border = "2px dotted green";
+                mySpan.style.margin = "30px";
+                mySpan.innerHTML = " 결과입니다.";
+                
+            }else{
+                mySpan.style.color = "red";
+                mySpan.style.fontSize = "20px";
+                mySpan.style.display = "block";
+                mySpan.style.width = "10em";
+                mySpan.style.border = "2px dotted green";
+                mySpan.style.margin = "20px";
+                mySpan.innerHTML = "문장입니다.";
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <h3>CSS 스타일 동적 변경 - toggle</h3>
+    <hr>
+    <p>이것은 
+        <span id="mySpan" style="color:red">문장입니다.</span>
+    </p>
+    <br>
+    <button onclick="toggle()">스타일변경</button>    
+</body>
+</html>
