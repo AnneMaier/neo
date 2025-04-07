@@ -204,18 +204,19 @@ app.post('/update', (req, res) => {
 
 app.post('/delete', (req, res) => {
     const id = req.body.id;
-    if (id == "" || pw == "") {
-        res.write("<script>alert('id or pw is empty')</script>");
-    } else{
+    if (id == '') {
+        res.write("<script>alert('User-id or Password is empty!');</script>");
+    } else {
         let result = connection.query('select * from user where userid=?', [id]);
         console.log(result);
-        if (result.length  == 0){
-            template_nodata(res);
+        if (result.length == 0) {
+            template_nodata(res);    
+        } else {        
+            const result = connection.query('delete from user where userid = ?', [id]);
+            console.log(result);
+            res.redirect('/select');
         }
     }
-    const result = connection.query('delete from user where userid = ?', [id]);
-    console.log(result);
-    res.redirect('/select');
 })
 
 module.exports = app;
