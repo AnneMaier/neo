@@ -137,6 +137,11 @@ app.get('/select', (req, res) => {
 
 app.get('/selectQuery', (req, res) => {
     const id = req.query.id;
+    if ( id == "" ) {
+        res.write("<script>alert('user is empty')</script>");
+    } else{
+
+    
     const result = connection.query('select * from user where userid = ?', [id]);   
     console.log(result);
     // res.send(result);
@@ -145,17 +150,53 @@ app.get('/selectQuery', (req, res) => {
     } else {
         template_result(result, res);
     }
-})
+}})
+
 
 app.post('/insert', (req, res) => { 
     const { id, pw } = req.body;
-    const result = connection.query('insert into user values(?, ?)', [id, pw]);
+    if (id == "" || pw == "") {
+        res.write("<script>alert('id or pw is empty')</script>");
+    }
+    else{
+    let result = connection.query('select * from user where userid=?', [id]);
+    if (result.length > 0){
+        res.writeHead(200);
+        var template = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Error</title>
+                <meta charset="UTF-8">
+            </head>
+            <body>
+                <div>
+                <h3 style="margin-left:30px">Register Failed.</h3>
+                 <h4 style="margin-left:30px">이미 존재하는 아이디 입니다.</h4>
+                </div>
+            </body>
+            </html>
+        `;
+        res.end(template);
+    }
+    result = connection.query('insert into user values(?, ?)', [id, pw]);
     console.log(result);
     res.redirect('/selectQuery?id=' + req.body.id);
-})
+}})
 
 app.post('/update', (req, res) => {
     const { id, pw } = req.body;
+    if (id == "" || pw == "") {
+        res.write("<script>alert('id or pw is empty')</script>");
+    }
+    else{
+
+        let result = connection.query('select * from user where userid=?', [id]);
+        console.log(result);
+        if (result.length  == 0){
+            template_nodata(res);
+        }
+    } 
     const result = connection.query('update user set passwd = ? where userid = ?', [pw, id]);
     console.log(result);
     res.redirect('/selectQuery?id=' + req.body.id);
@@ -163,6 +204,15 @@ app.post('/update', (req, res) => {
 
 app.post('/delete', (req, res) => {
     const id = req.body.id;
+    if (id == "" || pw == "") {
+        res.write("<script>alert('id or pw is empty')</script>");
+    } else{
+        let result = connection.query('select * from user where userid=?', [id]);
+        console.log(result);
+        if (result.length  == 0){
+            template_nodata(res);
+        }
+    }
     const result = connection.query('delete from user where userid = ?', [id]);
     console.log(result);
     res.redirect('/select');
