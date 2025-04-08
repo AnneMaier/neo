@@ -12,7 +12,7 @@ app.get('/hello', (req, res) => {
     res.send({data : 'Hello World!'});
 }) 
 
-let option1 = 'http:/192.168.1.28:8000/hello';
+let option1 = 'http:/192.168.1.28:80000/hello';
 
 app.get('rhello', function(req, res){
     request(option1, {json: true}, function(err, result, body){
@@ -24,7 +24,7 @@ app.get('rhello', function(req, res){
     })
 })
 
-const data = JSON.stringify({ todo : 'Buy the milk - HWi'});
+const data = JSON.stringify({ todo : 'Buy the milk - hwi'});
 
 
 app.get('/data', function(req, res){
