@@ -6,6 +6,8 @@ num = 1
 prev = 0
 cur = 1
 
+### modify
+
 while num < 10:
     next = prev + cur
     print("%3d : %d" % (num, next))
