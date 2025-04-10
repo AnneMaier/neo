@@ -1,6 +1,9 @@
 # env
 .env
 
+# idea
+.idea
+
 # c program
 
 c/*
