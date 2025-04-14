@@ -10,6 +10,7 @@ import matplotlib.font_manager as fm
 event_date_str = input("특정 사건이 발생한 날짜를 입력하세요 (YYYY-MM-DD): ")
 event_date = datetime.strptime(event_date_str, "%Y-%m-%d").date()
 font_path = 'C:\Windows\Fonts\HancomHoonminjeongeumH.ttf'
+# font_path = 'C:\Windows\Fonts\HancomHoonminjeongeumH.ttf'
 font_prop = fm.FontProperties(fname=font_path)
 before_start_date = event_date - timedelta(weeks=2)
 before_end_date = event_date - timedelta(days=1)
@@ -79,7 +80,7 @@ print(after_df_sorted)
 
 # 시각화 (선 그래프로 순위 변화 비교)
 plt.figure(figsize=(12, 6))
-plt.rcParams['font.family'] = font_prop.get_name()
+plt.rcParams['font.family'] = 'NanumBarunGothic'
 plt.plot(range(1, 6), before_df_sorted['대출 횟수'].values, marker='o', label='이벤트 2주 전')
 plt.plot(range(1, 6), after_df_sorted['대출 횟수'].values, marker='o', label='이벤트 2주 후')
 
