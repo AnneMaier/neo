@@ -9,13 +9,10 @@ import matplotlib.font_manager as fm
 
 event_date_str = input("특정 사건이 발생한 날짜를 입력하세요 (YYYY-MM-DD): ")
 event_date = datetime.strptime(event_date_str, "%Y-%m-%d").date()
-font_path = 'C:\Windows\Fonts\HancomHoonminjeongeumH.ttf'
-# font_path = 'C:\Windows\Fonts\HancomHoonminjeongeumH.ttf'
-font_prop = fm.FontProperties(fname=font_path)
 before_start_date = event_date - timedelta(weeks=2)
 before_end_date = event_date - timedelta(days=1)
 after_start_date = event_date
-after_end_date = event_date + timedelta(weeks=2)
+after_end_date = event_date + timedelta(days=7)
 
 before_start_str = before_start_date.strftime("%Y-%m-%d")
 before_end_str = before_end_date.strftime("%Y-%m-%d")
@@ -72,10 +69,10 @@ after_df = pd.DataFrame({'도서 제목': after_books, '대출 횟수': after_co
 after_df_sorted = after_df.sort_values(by='대출 횟수', ascending=False).head(5)
 
 
-print(f"\n{event_date_str} 사건 발생 2주 전 인기 도서 순위 (1~5위):")
+print(f"\n{event_date_str} 사건 발생 1주 전 인기 도서 순위 (1~5위):")
 print(before_df_sorted)
 
-print(f"\n{event_date_str} 사건 발생 후 2주간 인기 도서 순위 (1~5위):")
+print(f"\n{event_date_str} 사건 발생 1주 후 인기 도서 순위 (1~5위):")
 print(after_df_sorted)
 
 # 시각화 (선 그래프로 순위 변화 비교)
