@@ -25,7 +25,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_82788be6e49c9dc950fb727c7b7e195a {
+                #map_2a16ce34dfbbee7958bd6ae60db4df45 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -39,19 +39,19 @@
 <body>
     
     
-            <div class="folium-map" id="map_82788be6e49c9dc950fb727c7b7e195a" ></div>
+            <div class="folium-map" id="map_2a16ce34dfbbee7958bd6ae60db4df45" ></div>
         
 </body>
 <script>
     
     
-            var map_82788be6e49c9dc950fb727c7b7e195a = L.map(
-                "map_82788be6e49c9dc950fb727c7b7e195a",
+            var map_2a16ce34dfbbee7958bd6ae60db4df45 = L.map(
+                "map_2a16ce34dfbbee7958bd6ae60db4df45",
                 {
                     center: [37.566345, 126.977893],
                     crs: L.CRS.EPSG3857,
                     ...{
-  "zoom": 10,
+  "zoom": 16,
   "zoomControl": true,
   "preferCanvas": false,
 }
@@ -63,7 +63,7 @@
 
         
     
-            var tile_layer_11ff19a66bed339d4d5debd2736536f2 = L.tileLayer(
+            var tile_layer_ec1c4bfc01a41f97f5b1ae660e110d45 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
   "minZoom": 0,
@@ -80,7 +80,27 @@
             );
         
     
-            tile_layer_11ff19a66bed339d4d5debd2736536f2.addTo(map_82788be6e49c9dc950fb727c7b7e195a);
+            tile_layer_ec1c4bfc01a41f97f5b1ae660e110d45.addTo(map_2a16ce34dfbbee7958bd6ae60db4df45);
+        
+    
+            var tile_layer_0be2bb7f846da70785cbbb38f9f54c5c = L.tileLayer(
+                "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 17,
+  "maxNativeZoom": 17,
+  "noWrap": false,
+  "attribution": "Map data: \u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors, \u003ca href=\"http://viewfinderpanoramas.org\"\u003eSRTM\u003c/a\u003e | Map style: \u0026copy; \u003ca href=\"https://opentopomap.org\"\u003eOpenTopoMap\u003c/a\u003e (\u003ca href=\"https://creativecommons.org/licenses/by-sa/3.0/\"\u003eCC-BY-SA\u003c/a\u003e)",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0be2bb7f846da70785cbbb38f9f54c5c.addTo(map_2a16ce34dfbbee7958bd6ae60db4df45);
         
 </script>
 </html>
