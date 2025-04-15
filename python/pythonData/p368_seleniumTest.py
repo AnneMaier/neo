@@ -9,7 +9,7 @@ print(type(driver))
 print("-"  * 50)
 print("Go Google~!")
 
-url = "www.google.com"
+url = "https://www.google.com"
 driver.get(url)
 
 search_textbook = driver.find_element(By.NAME, "q")
@@ -19,7 +19,7 @@ word = 'selenium'
 search_textbook.send_keys(word)
 search_textbook.submit()
 
-wait = 3
+wait = 30
 print(str(wait) + ' seconds later...')
 time.sleep(wait)
 
