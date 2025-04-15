@@ -21,7 +21,7 @@ after_end_str = after_end_date.strftime("%Y-%m-%d")
 
 auth_key = "c9eb283fb128e02210af9731fb75d7771b7399f8560cecad0d924fb29470bd7a"  # 여기에 발급받은 인증키를 넣어주세요.
 
-before_url = f"http://data4library.kr/api/loanItemSrch?authKey={auth_key}&startDt={before_start_str}&endDt={before_end_str}&format=json&pageSize=200"
+before_url = f"http://data4library.kr/api/loanItemSrch?authKey={auth_key}&startDt=  Dt={before_end_str}&format=json&pageSize=200"
 before_response = requests.get(before_url)
 before_data = json.loads(before_response.text)
 
