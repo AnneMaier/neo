@@ -1,50 +1,39 @@
-# env
+## .env
 .env
 
-# idea
-.idea
-
-# c program
-
+## c program
 c/*
 c/*.o
-!c/**/
 !c/**/*.c
-!c/**/lib/
-!c/**/lib/*.a
-!c/**/lib/*.h
+!c/**/*.h
+!c/**/*.a
 !c/**/Makefile*
 
-
-# Java
+## Java
 **/*.class
 
-# Scala
+## Scala
 scala/**/project
 scala/**/target
 
-# Maven
-
+## Maven
 maven/**/target
 
-# nodejs
-node/**/node_modules/
+## nodejs
+node/**/node_modules
 node/**/package-lock.json
 
-
-# python
+## python
+.idea
+secret.json
 python/**/.venv
 python/**/__pycache__/
+**/ secret.json
 
-
-# mongoDB
+## mongodb
 mongodb/backup
 
-
-# oracle	
+## oracle
 oracle/node/dbConfig.js
-oracle/node/node_modules
-oracle/node/package-lock.json
-
-# secrets
-**/secret.json
+oracle/**/node_modules
+oracle/**/package-lock.json
