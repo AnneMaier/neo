@@ -58,46 +58,61 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     
     # API 호출 결과 만들기
     result = {"docs": {"graphImageURL": "", "eachBookData" : []}}
+    print(data)
 
     for eachData in data:
 
         # API 호출 결과에 추가
         eachDataDict = {}
         eachDataDict['ranking'] = eachData['doc']['ranking']
-        eachDataDict['bookName'] = eachData['doc']['bookname']
+    # 그래프 작성을 위한 데이터 추가
+        loanCountDataForGraph.append(eachData['doc']['loan_count'])
+
+        # '권'이 여러권인 책의 경우 제목 데이터에 '권'이 추가됨
+        print('vol 값:', eachData['doc'].get('vol', None))
+        if eachData['doc'].get('vol', '') != '':
+            eachDataDict['bookName'] = eachData['doc']['bookname'] + " " + f'<{eachData["doc"]["vol"]}권>'
+            bookNameDataForGraph.append(eachData['doc']['bookname'] + " " + f'<{eachData["doc"]["vol"]}권>')
+        else:
+            eachDataDict['bookName'] = eachData['doc']['bookname']
+            bookNameDataForGraph.append(eachData['doc']['bookname'])
         eachDataDict['author'] = eachData['doc']['authors']
         eachDataDict['isbn13'] = eachData['doc']['isbn13']
         eachDataDict['className'] = eachData['doc']['class_nm']
         eachDataDict['bookImageURL'] = eachData['doc']['bookImageURL']
         eachDataDict['loanCount'] = eachData['doc']['loan_count']
         result["docs"]["eachBookData"].append(eachDataDict)
-    # 그래프 작성을 위한 데이터 추가
-        bookNameDataForGraph.append(eachData['doc']['bookname'])
-        loanCountDataForGraph.append(eachData['doc']['loan_count'])
 
-    bookNameDataForGraph.sort()
-    loanCountDataForGraph.sort()
+    
 
     # 그래프 생성
 
     graphImageURL = os.path.join(GRAPHS_DIR, f"{eventDate}.png")
     plt.figure(figsize=(12, 6))
     plt.rcParams['font.family'] = 'NanumBarunGothic'
-    plt.title = f"{eventDate} 사건일 이후 {day}일간 인기 도서 대출 횟수 비교 (상위 5위)"
+    plt.title(f"{eventDate} 사건일 이후 {day}일간 인기 도서 대출 횟수 비교 (상위 5위)")
+    loanCountDataForGraph = [int(x) for x in loanCountDataForGraph]
     graphDf = pd.DataFrame({
         '도서 제목': bookNameDataForGraph,
         '대출 횟수': loanCountDataForGraph
     })
-    
+    print(graphDf)
     
     plt.bar(graphDf['도서 제목'], graphDf['대출 횟수'], color='blue')
-    plt.xlabel('대출 횟수')
-    plt.ylabel('도서명')
+    plt.xlabel('도서명')
+    plt.ylabel('대출 횟수')
+    plt.xticks(rotation=45)
+    plt.ylim(0, max(graphDf['대출 횟수']) + 100)
+    # 막대 위에 대출 횟수 표시
+    for idx, value in enumerate(graphDf['대출 횟수']):
+        plt.text(idx, value + 5, str(value), ha='center', va='bottom', fontsize=10)
+    plt.tight_layout()
     plt.savefig(graphImageURL, dpi=300, bbox_inches='tight')
 
 
 
     result["docs"]["graphImageURL"] = graphImageURL
+    print(f"그래프 생성 완료: {graphImageURL}")
 
 
 
