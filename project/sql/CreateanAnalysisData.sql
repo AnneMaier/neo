@@ -1,0 +1,10 @@
+CREATE TABLE `analysisdata` (
+  `RANKS` int(11) NOT NULL,
+  `EVENT_DATE` varchar(20) DEFAULT NULL,
+  `GRAPH_URL` varchar(40) DEFAULT NULL,
+  `DAY` int(11) DEFAULT NULL,
+  `EACH_BOOK_DATA` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`EVENT_DATE`, `RANKS`, `DAY`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
