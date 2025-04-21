@@ -7,18 +7,28 @@
 </head>
 <body>
     <h1>사건일 기반 도서 대출 횟수 비교</h1>
-    <form name="userForm" target="targetURL">
-        <input type="button" value="GET /HELLO" onclick='document.targetURL.location.href="/viewAnalysis"'>
-        &nbsp; &nbsp;&nbsp;
         <input type="button" value="Select st_info" onclick='document.targetURL.location.href="/select"'>
-    
-        <label for="eventDate">날짜를 선택하세요:</label>
-        <input type="date" id="eventDate" max="2025-06-20" min="1970-01-01">
+        <br>
+        <br>
 
-    </form>
+
+        <form method="get" action="http://192.168.1.28:8000/viewAnalysis">
+        <label for="eventDate">날짜를 선택하세요:</label>
+        &nbsp; &nbsp;&nbsp;
+        <input type="date" id="eventDate" name="eventDate" max="2025-06-20" min="1970-01-01">
+        <br>    
+        <label for="rank">순위를 선택하세요:</label>
+        &nbsp; &nbsp;&nbsp;
+        <input type="number" id="rank" name="rank" value="5" style="width: 50px;">
+        <br>
+        <label for="day">일수를 선택하세요:</label>
+        &nbsp; &nbsp;&nbsp;
+        <input type="number" id="day" name="day" value="7" style="width: 50px;">
+        <br>
+        <input type="submit" value="분석하기">
+
+        </form>
     <hr>
-    <iframe name="targetURL" width="90%" height="500" style="border:none;" src="http://192.168.1.28:8000/Hello">
-    </iframe>
      
 </body>
 </html>
