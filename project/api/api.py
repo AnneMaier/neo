@@ -27,7 +27,7 @@ app = FastAPI()
 
 @app.get('/')
 async def HealthCheck():
-    return {"status": "ok"}
+    return {"statusCode": 200, "message": "ok"}
 
 @app.get('/LoanRankByDate')
 async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strftime("%Y-%m-%d")), day : Optional[int] = Query(default=7) ,rank: Optional[int] = Query(default=5) , barColor : Optional[str] = Query(default='blue')):
@@ -39,9 +39,6 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     afterEventDate = (datetime.strptime(eventDate, "%Y-%m-%d") + timedelta(days=day)).strftime("%Y-%m-%d")
 
     # 사건 데이터 호출 및 분석 함수화
-    # 
-    rankData = rank
-
     API_URL += "&startDt=" + eventDate
     API_URL += "&endDt=" + afterEventDate
     API_URL += "&format=json"
@@ -49,6 +46,10 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     API_URL += f"&pageSize={rank}"
 
     response = requests.get(API_URL)
+    try:
+        response.status_code
+    except requests.exceptions.RequestException as e:
+        return {"statusCode": response.status_code, "message": str(e)}
     contents = response.text
     contentsJson = json.loads(contents)
     contentsItems = contentsJson['response']['docs']
@@ -58,7 +59,7 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     loanCountDataForGraph = []
     
     # API 호출 결과 만들기
-    result = {"docs": {"graphImageURL": "", "eachBookData" : []}}
+    result = {"statusCode": 200, "docs": {"graphImageURL": "", "eachBookData" : []} }
     print(data)
 
     for eachData in data:
@@ -118,40 +119,3 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
 
     return result
-
-#     데이터 목록
-# 전/후
-# 분석 그래프 이미지 주소
-# 개별 책 데이터
-# 도서 대출 순위
-# 도서명
-# 저자명
-# ISBN 코드
-# 권
-# 도서 주제 분류
-# 책 표지 이미지 URL
-# 대출 권수
-
-
-
-    # def analyzeWithGetGraph(date, API_URL, rank: Optional[str] = None, dataKind):
-        
-    #     dataKind = dataKindResult
-    #     API_URL += "&startDt=" + date
-    #     API_URL += "&endDt=" + date
-    #     API_URL += "&format=json"
-    #     API_URL += "&pageNO=1"
-    #     API_URL += "&pageSize=5"    
-    #     response = requests.get(API_URL)
-
-    #     print('-' * 50)
-    #     before_contents = response.text
-    #     before_dict = json.loads(before_contents)
-    #     before_items = before_dict['response']['docs']
-    #     print(before_items)
-    #     data = before_items
-    #     print(data)
-
-    #     return data
-    
-    # analyzeWithGetGraph(date=before_event_date, rank=rankData, API_URL=API_URL)
