@@ -44,13 +44,13 @@ async def HealthCheck():
     return {"statusCode": 200, "message": "ok"}
 
 @app.get('/LoanRankByDate')
-async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strftime("%Y-%m-%d")), day : Optional[int] = Query(default=7) ,rank: Optional[int] = Query(default=5) , barColor : Optional[str] = Query(default='blue')):
+async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strftime("%Y-%m-%d")), barColor : Optional[str] = Query(default='blue')):
     
     # DB 연결 및 중복 데이터 확인
     dbConnection = getDbConnection()
     cursor = dbConnection.cursor()
-    sql = "SELECT * FROM analysisdata WHERE EVENT_DATE=%s AND RANKS=%s AND DAY=%s"
-    cursor.execute(sql, (eventDate, rank, day))
+    sql = "SELECT * FROM analysisdata WHERE EVENT_DATE=%s"
+    cursor.execute(sql, (eventDate))
     existData = cursor.fetchone()
     
     if existData:
@@ -67,16 +67,14 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     API_URL = "http://data4library.kr/api/loanItemSrch?"
     API_URL += "authKey=" + get_secret("doseonaru_apiKey")
     # 날짜 값 생성
-    if day == None:
-        day = 1
-    afterEventDate = (datetime.strptime(eventDate, "%Y-%m-%d") + timedelta(days=day)).strftime("%Y-%m-%d")
+    afterEventDate = (datetime.strptime(eventDate, "%Y-%m-%d") + timedelta(days=14)).strftime("%Y-%m-%d")
 
     # 사건 데이터 호출 및 분석 함수화
     API_URL += "&startDt=" + eventDate
     API_URL += "&endDt=" + afterEventDate
     API_URL += "&format=json"
     API_URL += "&pageNO=1"
-    API_URL += f"&pageSize={rank}"
+    API_URL += "&pageSize=5"
 
     response = requests.get(API_URL)
     try:
@@ -145,10 +143,10 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
     # DB에 데이터 추가
     insert_sql = """
-    INSERT INTO analysisdata (EVENT_DATE, RANKS, DAY, GRAPH_URL, EACH_BOOK_DATA, VIEW_COUNT)
-    VALUES (%s, %s, %s, %s, %s, %s)
+    INSERT INTO analysisdata (EVENT_DATE, GRAPH_URL, EACH_BOOK_DATA, VIEW_COUNT)
+    VALUES (%s, %s, %s, %s)
     """
-    cursor.execute(insert_sql, (eventDate, rank, day, graphImageURL, json.dumps(result["docs"]["eachBookData"]), 1))
+    cursor.execute(insert_sql, (eventDate, graphImageURL, json.dumps(result["docs"]["eachBookData"]), 1))
     dbConnection.commit()
 
     result["docs"]["graphImageURL"] = graphImageURL
