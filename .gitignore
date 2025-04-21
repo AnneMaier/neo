@@ -28,6 +28,7 @@ node/**/package-lock.json
 secret.json
 python/**/.venv
 python/**/__pycache__/
+
 **/ secret.json
 
 ## mongodb
@@ -37,3 +38,7 @@ mongodb/backup
 oracle/node/dbConfig.js
 oracle/**/node_modules
 oracle/**/package-lock.json
+
+## project
+/project/api/**/__pycache__/
+/project/api/graphs
