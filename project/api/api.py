@@ -29,8 +29,8 @@ app = FastAPI()
 async def HealthCheck():
     return {"status": "ok"}
 
-@app.get('/EventLoanRankChange')
-async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strftime("%Y-%m-%d")), day : Optional[int] = None ,rank: Optional[str] = None ):
+@app.get('/LoanRankByDate')
+async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strftime("%Y-%m-%d")), day : Optional[int] = Query(default=7) ,rank: Optional[int] = Query(default=5) , barColor : Optional[str] = Query(default='blue')):
     API_URL = "http://data4library.kr/api/loanItemSrch?"
     API_URL += "authKey=" + get_secret("doseonaru_apiKey")
     # 날짜 값 생성
@@ -46,7 +46,8 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     API_URL += "&endDt=" + afterEventDate
     API_URL += "&format=json"
     API_URL += "&pageNO=1"
-    API_URL += "&pageSize=5"    
+    API_URL += f"&pageSize={rank}"
+
     response = requests.get(API_URL)
     contents = response.text
     contentsJson = json.loads(contents)
@@ -90,7 +91,6 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     graphImageURL = os.path.join(GRAPHS_DIR, f"{eventDate}.png")
     plt.figure(figsize=(12, 6))
     plt.rcParams['font.family'] = 'NanumBarunGothic'
-    plt.title(f"{eventDate} 사건일 이후 {day}일간 인기 도서 대출 횟수 비교 (상위 5위)")
     loanCountDataForGraph = [int(x) for x in loanCountDataForGraph]
     graphDf = pd.DataFrame({
         '도서 제목': bookNameDataForGraph,
@@ -98,7 +98,7 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     })
     print(graphDf)
     
-    plt.bar(graphDf['도서 제목'], graphDf['대출 횟수'], color='blue')
+    plt.bar(graphDf['도서 제목'], graphDf['대출 횟수'], color=barColor)
     plt.xlabel('도서명')
     plt.ylabel('대출 횟수')
     plt.xticks(rotation=45)
