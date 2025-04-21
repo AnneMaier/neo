@@ -57,9 +57,9 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
         update_sql = """
         UPDATE analysisdata
         SET VIEW_COUNT = VIEW_COUNT + 1
-        WHERE EVENT_DATE = %s AND RANKS = %s AND DAY = %s
+        WHERE EVENT_DATE = %s
     """
-        cursor.execute(update_sql, (eventDate, rank, day))
+        cursor.execute(update_sql, (eventDate))
         dbConnection.commit()
         return {"statusCode": 200, "message": "exist data",  "docs": {"graphImageURL": existData["GRAPH_URL"], "eachBookData" : existData["EACH_BOOK_DATA"], "viewCount" : existData["VIEW_COUNT"]}}
 

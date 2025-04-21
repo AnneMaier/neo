@@ -30,9 +30,9 @@ app.get('/Hello', (req, res) => {
 
 
 app.get('/viewAnalysis', async (req, res) => {
-    const { eventDate, rank, day } = req.query;
+    const { eventDate } = req.query;
     try {
-        const response = await axios(`${FastAPI}/LoanRankByDate?eventDate=${eventDate}&rank=${rank}&day=${day}`);
+        const response = await axios(`${FastAPI}/LoanRankByDate?eventDate=${eventDate}`);
         const data = response.data;
         
         res.render('result', { data });
