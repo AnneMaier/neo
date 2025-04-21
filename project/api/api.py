@@ -2,10 +2,12 @@ import requests, json
 import pandas as pd
 import os.path
 import matplotlib.pyplot as plt
+import pymysql
 from datetime import datetime, timedelta
 import matplotlib.font_manager as fm
 from fastapi import FastAPI, Query
 from typing import Optional
+
 
 GRAPHS_DIR = os.path.dirname("/work/neo/project/api/graphs/")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.relpath("./")))
@@ -23,6 +25,18 @@ def get_secret(setting, secrets=secrets):
         errorMsg = "Set the {} environment variable.".format(setting)
         return errorMsg
 
+def getDbConnection():
+    return pymysql.connect(
+        host=get_secret("Mysql_Hostname"),
+        user=get_secret("Mysql_Username"),
+        password=get_secret("Mysql_Password"),
+        db=get_secret("Mysql_DBname"),
+        charset='utf8',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+
+
 app = FastAPI()
 
 @app.get('/')
@@ -31,6 +45,25 @@ async def HealthCheck():
 
 @app.get('/LoanRankByDate')
 async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strftime("%Y-%m-%d")), day : Optional[int] = Query(default=7) ,rank: Optional[int] = Query(default=5) , barColor : Optional[str] = Query(default='blue')):
+    
+    # DB 연결 및 중복 데이터 확인
+    dbConnection = getDbConnection()
+    cursor = dbConnection.cursor()
+    sql = "SELECT * FROM analysisdata WHERE EVENT_DATE=%s AND RANKS=%s AND DAY=%s"
+    cursor.execute(sql, (eventDate, rank, day))
+    existData = cursor.fetchone()
+    
+    if existData:
+        update_sql = """
+        UPDATE analysisdata
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE EVENT_DATE = %s AND RANKS = %s AND DAY = %s
+    """
+        cursor.execute(update_sql, (eventDate, rank, day))
+        dbConnection.commit()
+        return {"statusCode": 200, "message": "exist data",  "docs": {"graphImageURL": existData["GRAPH_URL"], "eachBookData" : existData["EACH_BOOK_DATA"], "viewCount" : existData["VIEW_COUNT"]}}
+
+    # 데이터 없으므로 API 호출
     API_URL = "http://data4library.kr/api/loanItemSrch?"
     API_URL += "authKey=" + get_secret("doseonaru_apiKey")
     # 날짜 값 생성
@@ -59,8 +92,8 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     loanCountDataForGraph = []
     
     # API 호출 결과 만들기
-    result = {"statusCode": 200, "docs": {"graphImageURL": "", "eachBookData" : []} }
-    print(data)
+    result = {"statusCode": 200, "message": "make new data", "docs": {"graphImageURL": "", "eachBookData" : [], "viewCount" : 0} }
+
 
     for eachData in data:
 
@@ -110,7 +143,13 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     plt.tight_layout()
     plt.savefig(graphImageURL, dpi=300, bbox_inches='tight')
 
-
+    # DB에 데이터 추가
+    insert_sql = """
+    INSERT INTO analysisdata (EVENT_DATE, RANKS, DAY, GRAPH_URL, EACH_BOOK_DATA, VIEW_COUNT)
+    VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    cursor.execute(insert_sql, (eventDate, rank, day, graphImageURL, json.dumps(result["docs"]["eachBookData"]), 1))
+    dbConnection.commit()
 
     result["docs"]["graphImageURL"] = graphImageURL
     print(f"그래프 생성 완료: {graphImageURL}")
