@@ -3,29 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sync-Mysql</title>
+    <title>index</title>
 </head>
 <body>
-    <h1>Sync-Mysql Example</h1>
+    <h1>사건일 기반 도서 대출 횟수 비교</h1>
     <form name="userForm" target="targetURL">
-        <input type="button" value="GET /HELLO" onclick='document.targetURL.location.href="/hello"'>
+        <input type="button" value="GET /HELLO" onclick='document.targetURL.location.href="/viewAnalysis"'>
         &nbsp; &nbsp;&nbsp;
         <input type="button" value="Select st_info" onclick='document.targetURL.location.href="/select"'>
     
-        <p>ST_ID &nbsp; <input type="text" name="st_id" size="10"></p>
-        <p>NAME &nbsp; <input type="text" name="name" size="10"></p>
-        <p>DEPT &nbsp; <input type="text" name="dept" size="10"></p>
-        <input type="button" value="Insert st_info" onclick='document.targetURL.
-        location.href="/insert?st_id="+document.userForm.st_id.value+"&name="
-        +document.userForm.name.value+"&dept="+document.userForm.dept.value'>
-        &nbsp; &nbsp; &nbsp;
-        <input type="button" value="Update st_info" onclick='document.targetURL.
-        location.href="/update?st_id="+document.userForm.st_id.value+"&name="
-        +document.userForm.name.value+"&dept="+document.userForm.dept.value'>
-        &nbsp; &nbsp; &nbsp;
-        <input type="button" value="Delete st_info" onclick='document.targetURL.
-        location.href="/delete?st_id="+document.userForm.st_id.value'>
-
+        <label for="eventDate">날짜를 선택하세요:</label>
+        <input type="date" id="eventDate" max="2025-06-20" min="1970-01-01">
 
     </form>
     <hr>
