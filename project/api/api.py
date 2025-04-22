@@ -174,6 +174,8 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
 
 @app.get('/checkBookState')
-async def checkBookState():
+async def checkBookState(isbn13 : Optional[str] = Query(default=None), regionName : Optional[str] = Query(default=None), detailedRegionName : Optional[str] = Query(default=None)):
+
+
     return {"statusCode": 200, "message": "ok"}
     

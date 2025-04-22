@@ -7,12 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/result.css">
-    <script>
-        function modal() {
-            
-        } 
-
-    </script>
 </head>
 <body>
     <div class="container">
@@ -68,11 +62,44 @@
                 <span class="modal-close" onclick="closeModal()">&times;</span>
                 <div id="modal-body">
                     <!-- 도서관 정보 등 동적으로 표시될 영역 -->
-                    <p style="text-align:center; color:#a259ff; font-size:1.2rem;">여기에 도서 상세 정보/도서관 리스트가 뜹니다.</p>
+                    <p style="text-align:center; color:#a259ff; font-size:1.2rem;">여기에 도서 상세 정보/도서관 리스트가 뜨는 곳입니다.</p>
                 </div>
             </div>
         </div>
     </div>
+    <input id="userAddr" type="hidden"></input>
+    <script>
+    window.initKakao = function() {
+        kakao.maps.load(function() {
+            // 이제 geocoder 등 모든 객체 사용 가능
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            // 현재 위치 가져오기 및 행정동 주소 찾기
+            navigator.geolocation.getCurrentPosition((position) => {
+                var userLat = position.coords.latitude;
+                var userLng = position.coords.longitude;
+                var coords = new kakao.maps.LatLng(userLat, userLng);
+                searchAddrFromCoords(coords, function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        for (var i = 0; i < result.length; i++) {
+                            if (result[i].region_type === 'H') {
+                                document.getElementById('userAddr').value = result[i].address_name;
+                                break;
+                            }
+                        }
+                    }
+                });
+            }, function(error) {
+                alert('현재 사용자의 위치 정보를 가져올 수 없습니다: ' + error.message);
+            });
+
+            function searchAddrFromCoords(coords, callback) {
+                geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+            }
+        });
+    }
+    </script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=kakao_apiKey%>&libraries=services&autoload=false" onload="initKakao()"></script>
     <script>
         // 모달 열기
         function openModal() {

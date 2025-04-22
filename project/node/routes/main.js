@@ -38,7 +38,8 @@ app.get('/viewAnalysis', async (req, res) => {
         let graphImageURL = data.docs.graphImageURL;
         let eachBookData = JSON.parse(data.docs.eachBookData);
         let viewCount = data.docs.viewCount;
-        res.render('result', { graphImageURL, eachBookData, viewCount, eventDate });
+        let kakao_apiKey = process.env.kakao_apiKey;
+        res.render('result', { graphImageURL, eachBookData, viewCount, eventDate, kakao_apiKey });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data');
