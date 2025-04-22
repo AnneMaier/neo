@@ -47,6 +47,18 @@ app.get('/viewAnalysis', async (req, res) => {
     
 })
 
+app.post('/checkBookState', async (req, res) => {
+    const { isbn13, region } = req.body;
+    try {
+        const response = await axios.post(`${FastAPI}/checkBookState`, { isbn13, region });
+        const data = response.data;
+        console.log(data);
+        res.json(data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error fetching data');
+    }
+})  
 
 // insert data to st_info table
 app.get('/insert', (req, res) => {

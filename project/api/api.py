@@ -8,7 +8,8 @@ from datetime import datetime, timedelta
 import matplotlib.font_manager as fm
 from fastapi import FastAPI, Query
 from typing import Optional
-
+import urllib
+from pydantic import BaseModel
 
 GRAPHS_DIR = os.path.dirname("/work/neo/project/api/graphs/")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.relpath("./")))
@@ -36,7 +37,9 @@ def getDbConnection():
         cursorclass=pymysql.cursors.DictCursor
     )
 
-
+class BookStateRequest(BaseModel):
+    isbn13: str
+    region: str
 
 app = FastAPI()
 
@@ -173,13 +176,13 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     return result
 
 
-@app.get('/checkBookState')
-async def checkBookState(isbn13 : Optional[str] = Query(default=None),  region : Optional[str] = Query(default=None)):
-    # 먼저 Isbn, 지역, 세부지역을 통해 해당 도서 소장중인 도서관 리스트 출력
-
-    # region = '서울특별시 서초구 서초2동'
+@app.post('/checkBookState')
+async def checkBookState(request: BookStateRequest):
+    isbn13 = request.isbn13
+    region = urllib.parse.unquote(request.region)
+    print(region)
     regionName = region.split(' ')[0]
-    twoWordRegionName = regionName[:2  ]
+    twoWordRegionName = regionName[:2]
     detailedRegionName = region.split(' ')[1]
 
     dbConnection = getDbConnection()
@@ -189,14 +192,13 @@ async def checkBookState(isbn13 : Optional[str] = Query(default=None),  region :
     cursor.execute(sql, (twoWordRegionName))
     regionData = cursor.fetchone()['region_code']
     cursor.close()
-    
     # 세부지역 코드 조회
     cursor = dbConnection.cursor()
     sql = "SELECT * FROM detailed_regions WHERE region_name=%s AND detailed_name=%s"
     cursor.execute(sql, (regionName, detailedRegionName))
     detailedRegionData = cursor.fetchone()['dtl_region_code']
     cursor.close()
-    
+    # 이하 기존 로직...
 
     API_URL = "http://data4library.kr/api/libSrchByBook?authKey=" 
     API_URL += get_secret("doseonaru_apiKey")   
@@ -237,11 +239,15 @@ async def checkBookState(isbn13 : Optional[str] = Query(default=None),  region :
         response = requests.get(CALL_API_URL)
         data = response.json()
         print(data)
-        try:
-            bookstate = data['response']['result']
-            library['isLoanable'] = bookstate['loanAvailable']
-        except KeyError:
-            library['isLoanable'] = "확인 불가"
+        if data['response']['result']['hasBook'] == "Y":
+            try:
+                bookstate = data['response']['result']
+                if bookstate['loanAvailable'] == "Y":
+                    library['isLoanable'] = True
+                else:
+                    library['isLoanable'] = False
+            except KeyError:
+                library['isLoanable'] = "확인 불가"
     
     print(searchedLibraryData)
 
