@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/static/result.css">
     <!-- <script src="/static/flyingBook.js" defer></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/loanChart.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -49,9 +51,9 @@
                     </div>
                 </div>
             </div>
-            <div class="card" style="max-width:900px; margin:0 auto;">
+            <div class="card" style="max-width:1000px; margin:0 auto;">
                 <div style="font-weight:600;font-size:1.15rem;margin-bottom:10px;"><i class="fas fa-chart-area"></i> 대출 그래프</div>
-                <img src="<%=graphImageURL%>" alt="그래프 이미지">
+                <canvas id="loanChart" height="340" width="900"></canvas>
             </div>
         </div>
         <div class="footer">
@@ -119,6 +121,13 @@
             });
             document.getElementById('modal-overlay').onclick = closeModal;
         }
+    </script>
+    <script>
+        // Chart.js 대출 그래프 - 서버에서 eachBookData만 전달하면 됩니다.
+        window.addEventListener('DOMContentLoaded', function() {
+            const eachBookData = <%- JSON.stringify(eachBookData) %>;
+            window.renderLoanChart(eachBookData);
+        });
     </script>
 </body>
 </html>
