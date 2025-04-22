@@ -117,7 +117,7 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
         result["docs"]["eachBookData"].append(eachDataDict)
 
     
-
+    
     # 그래프 생성
 
     graphImageURL = os.path.join("graphs/", f"{eventDate}.png")
@@ -156,3 +156,9 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
 
     return result
+
+
+@app.get('/checkBookState')
+async def checkBookState():
+    return {"statusCode": 200, "message": "ok"}
+    

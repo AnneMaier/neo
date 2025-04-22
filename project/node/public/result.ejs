@@ -1,22 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>분석 결과</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/result.css">
 </head>
 <body>
-    <h1>분석 결과</h1>
-    <div>
-        <h2>그래프</h2>
-        <img src="<%= data.docs.graphImageURL %>" alt="그래프 이미지" style="max-width: 600px; height: auto;">
-    </div>
-    <div>
-        <h2>대출 도서 목록</h2>
-
-    </div>
-    <div>
-        <b>이 데이터 조회수: <%= data.docs.viewCount %></b>
+    <div class="container">
+        <span class="view-count view-count-top"><i class="fas fa-eye"></i> 조회수: <%= viewCount %></span>
+        <div class="header">
+            <div class="header-icon"><i class="fas fa-cube"></i></div>
+            <div class="title-group">
+                <div class="main-title">분석 결과</div>
+                <div class="subtitle">대출 도서 분석 대시보드</div>
+            </div>
+        </div>
+        <div class="dashboard" style="flex-direction:column; gap:36px;">
+            <div class="card" style="max-width:900px; margin:0 auto;">
+                <div style="font-weight:600;font-size:1.15rem;margin-bottom:10px;"><i class="fas fa-chart-area"></i> 대출 그래프</div>
+                <img src="<%=graphImageURL%>" alt="그래프 이미지">
+            </div>
+            <div class="card" style="flex:2; max-width:1100px; margin:0 auto;">
+                <div style="font-weight:600;font-size:1.15rem;margin-bottom:10px;"><i class="fas fa-book"></i> 대출 도서 TOP 5</div>
+                <div class="books-list books-list-top5">
+                    <% if (eachBookData.length > 0) { %>
+                        <div class="book-card book-card-top1">
+                            <span class="crown"><i class="fas fa-crown"></i></span>
+                            <img class="book-img" src="<%= eachBookData[0].bookImageURL %>" alt="도서 이미지">
+                            <div class="book-title"><%= eachBookData[0].bookName %></div>
+                            <div class="book-author"><i class="fas fa-user"></i> <%= eachBookData[0].author %></div>
+                            <div class="book-meta">ISBN: <%= eachBookData[0].isbn13 %></div>
+                            <div class="book-meta">분류: <%= eachBookData[0].className %></div>
+                            <div class="loan-count"><i class="fas fa-arrow-up"></i> <%= eachBookData[0].loanCount %>회</div>
+                        </div>
+                    <% } %>
+                    <div class="books-list-row">
+                        <% for (let i = 1; i < eachBookData.length; i++) { %>
+                            <div class="book-card book-card-rest">
+                                <img class="book-img" src="<%= eachBookData[i].bookImageURL %>" alt="도서 이미지">
+                                <div class="book-title"><%= eachBookData[i].bookName %></div>
+                                <div class="book-author"><i class="fas fa-user"></i> <%= eachBookData[i].author %></div>
+                                <div class="book-meta">ISBN: <%= eachBookData[i].isbn13 %></div>
+                                <div class="book-meta">분류: <%= eachBookData[i].className %></div>
+                                <div class="loan-count"><i class="fas fa-arrow-up"></i> <%= eachBookData[i].loanCount %>회</div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button class="btn-primary" onclick="window.location.href='/'"><i class="fas fa-home"></i> 홈으로</button>
+        </div>
     </div>
 </body>
 </html>

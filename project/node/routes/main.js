@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('sync-mysql');
 const env = require('dotenv').config({ path: "../../.env" });
-const axios = require('axios');
+const axios = require('axios'); 
 const FastAPI = "http://192.168.1.28:3000"
 
 const app = express();
@@ -34,12 +34,15 @@ app.get('/viewAnalysis', async (req, res) => {
     try {
         const response = await axios(`${FastAPI}/LoanRankByDate?eventDate=${eventDate}`);
         const data = response.data;
-        
-        res.render('result', { data });
+        console.log(data);
+        let graphImageURL = data.docs.graphImageURL;
+        let eachBookData = JSON.parse(data.docs.eachBookData);
+        let viewCount = data.docs.viewCount;
+        res.render('result', { graphImageURL, eachBookData, viewCount });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data');
-    }
+    }   
     
 })
 
