@@ -178,7 +178,7 @@ async def checkBookState(isbn13 : Optional[str] = Query(default=None), regionNam
     # 먼저 Isbn, 지역, 세부지역을 통해 해당 도서 소장중인 도서관 리스트 출력
     LibraryList = []
     API_URL = "http://data4library.kr/api/libSrchByBook?authKey=" 
-    API_URL += get_secret("doseonaru_apiKey") 
+    API_URL += get_secret("doseonaru_apiKey")   
     API_URL += "&isbn=" + isbn13 
     API_URL += "&region=" + regionName 
     API_URL += "&dtl_region=" + detailedRegionName
