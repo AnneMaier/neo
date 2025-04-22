@@ -174,14 +174,35 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
 
 @app.get('/checkBookState')
-async def checkBookState(isbn13 : Optional[str] = Query(default=None), regionName : Optional[str] = Query(default=None), detailedRegionName : Optional[str] = Query(default=None)):
+async def checkBookState(isbn13 : Optional[str] = Query(default=None),  region : Optional[str] = Query(default=None)):
     # 먼저 Isbn, 지역, 세부지역을 통해 해당 도서 소장중인 도서관 리스트 출력
-    LibraryList = []
+
+    # region = '서울특별시 서초구 서초2동'
+    regionName = region.split(' ')[0]
+    twoWordRegionName = regionName[:2  ]
+    detailedRegionName = region.split(' ')[1]
+
+    dbConnection = getDbConnection()
+    # 지역 코드 조회
+    cursor = dbConnection.cursor()
+    sql = "SELECT * FROM regions WHERE region_name=%s"
+    cursor.execute(sql, (twoWordRegionName))
+    regionData = cursor.fetchone()['region_code']
+    cursor.close()
+    
+    # 세부지역 코드 조회
+    cursor = dbConnection.cursor()
+    sql = "SELECT * FROM detailed_regions WHERE region_name=%s AND detailed_name=%s"
+    cursor.execute(sql, (regionName, detailedRegionName))
+    detailedRegionData = cursor.fetchone()['dtl_region_code']
+    cursor.close()
+    
+
     API_URL = "http://data4library.kr/api/libSrchByBook?authKey=" 
     API_URL += get_secret("doseonaru_apiKey")   
     API_URL += "&isbn=" + isbn13 
-    API_URL += "&region=" + regionName 
-    API_URL += "&dtl_region=" + detailedRegionName
+    API_URL += "&region=" + regionData
+    API_URL += "&dtl_region=" + detailedRegionData
     API_URL += "&format=json"
     API_URL += "&pageNO=1"
     API_URL += "&pageSize=100"
