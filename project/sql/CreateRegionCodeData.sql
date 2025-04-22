@@ -1,3 +1,5 @@
+Use testdb;
+
 CREATE TABLE regions (
     region_code VARCHAR(10) PRIMARY KEY, -- 지역 코드를 저장 (숫자 외 문자가 포함될 가능성을 고려해 VARCHAR 사용)
     region_name VARCHAR(50) NOT NULL    -- 광역시도명을 저장
@@ -6,7 +8,7 @@ CREATE TABLE regions (
 INSERT INTO regions (region_code, region_name) VALUES
 ('11', '서울'),
 ('21', '부산'),
-('22', '대구'),
+('22', '대구')
 ('23', '인천'),
 ('24', '광주'),
 ('25', '대전'),
