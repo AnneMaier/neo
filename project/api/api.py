@@ -175,7 +175,57 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
 @app.get('/checkBookState')
 async def checkBookState(isbn13 : Optional[str] = Query(default=None), regionName : Optional[str] = Query(default=None), detailedRegionName : Optional[str] = Query(default=None)):
+    # 먼저 Isbn, 지역, 세부지역을 통해 해당 도서 소장중인 도서관 리스트 출력
+    LibraryList = []
+    API_URL = "http://data4library.kr/api/libSrchByBook?authKey=" 
+    API_URL += get_secret("doseonaru_apiKey") 
+    API_URL += "&isbn=" + isbn13 
+    API_URL += "&region=" + regionName 
+    API_URL += "&dtl_region=" + detailedRegionName
+    API_URL += "&format=json"
+    API_URL += "&pageNO=1"
+    API_URL += "&pageSize=100"
+
+    response = requests.get(API_URL)
+    try:
+        response.status_code
+    except requests.exceptions.RequestException as e:
+        return {"statusCode": response.status_code, "message": "에러 발생", "error 내용": str(e)}
+    data = response.json()
+    LibraryList = data['response']['libs']
+    searchedLibraryData = []
+    
+    for library in LibraryList:
+        eachLibraryDict = {}
+        eachLibraryDict['libCode'] = library['lib']['libCode']
+        eachLibraryDict['libName'] = library['lib']['libName']
+        eachLibraryDict['address'] = library['lib']['address']
+        eachLibraryDict['tel'] = library['lib']['tel']
+        searchedLibraryData.append(eachLibraryDict)
+    print(searchedLibraryData)
+
+    
+    # 수집된 도서관 코드로 대출 가능 여부 조회
+    API_URL = "http://data4library.kr/api/bookExist"
+    API_URL += "?authKey=" + get_secret("doseonaru_apiKey")
+    API_URL += "&isbn13=" + isbn13
+    API_URL += "&format=json"
+
+    for library in searchedLibraryData:
+        CALL_API_URL = API_URL + "&libCode=" + library['libCode']
+        response = requests.get(CALL_API_URL)
+        data = response.json()
+        print(data)
+        try:
+            bookstate = data['response']['result']
+            library['isLoanable'] = bookstate['loanAvailable']
+        except KeyError:
+            library['isLoanable'] = "확인 불가"
+    
+    print(searchedLibraryData)
+
+    result = {"statusCode": 200, "message": "정상적으로 조회되었습니다.", "docs": {"searchedLibraryData": searchedLibraryData}}
 
 
-    return {"statusCode": 200, "message": "ok"}
+    return result
     
