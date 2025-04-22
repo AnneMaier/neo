@@ -40,8 +40,8 @@ oracle/**/node_modules
 oracle/**/package-lock.json
 
 ## project
-/project/api/**/__pycache__/
-/project/api/graphs
-/project/node/node_modules
-/project/node/package-lock.json
-/project/node/package.json
+project/api/**/__pycache__/
+project/api/graphs
+project/node/node_modules
+project/node/package-lock.json
+project/node/package.json
