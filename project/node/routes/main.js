@@ -38,7 +38,7 @@ app.get('/viewAnalysis', async (req, res) => {
         let graphImageURL = data.docs.graphImageURL;
         let eachBookData = JSON.parse(data.docs.eachBookData);
         let viewCount = data.docs.viewCount;
-        res.render('result', { graphImageURL, eachBookData, viewCount });
+        res.render('result', { graphImageURL, eachBookData, viewCount, eventDate });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data');

@@ -1,4 +1,5 @@
 import requests, json
+import numpy as np
 import pandas as pd
 import os.path
 import matplotlib.pyplot as plt
@@ -117,29 +118,42 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
         result["docs"]["eachBookData"].append(eachDataDict)
 
     
-    
+
     # 그래프 생성
 
     graphImageURL = os.path.join("graphs/", f"{eventDate}.png")
     plt.figure(figsize=(12, 6))
     plt.rcParams['font.family'] = 'NanumBarunGothic'
-    loanCountDataForGraph = [int(x) for x in loanCountDataForGraph]
-    graphDf = pd.DataFrame({
-        '도서 제목': bookNameDataForGraph,
-        '대출 횟수': loanCountDataForGraph
-    })
-    print(graphDf)
+    plt.rcParams['axes.edgecolor'] = '#f3eaff'
+    plt.rcParams['axes.linewidth'] = 2
+
+    # 컬러 및 스타일 지정
+    bar_color = '#a259ff'
+    bar_shadow = '#e5d8fa'
+    highlight_color = '#7c3aed'
+
+    x = np.arange(len(bookNameDataForGraph))
+    y = [int(v) for v in loanCountDataForGraph]
+
+    # 그림자 효과용
+    plt.bar(x, y, width=0.62, color=bar_shadow, zorder=1)
+    bars = plt.bar(x, y, width=0.5, color=bar_color, zorder=2, edgecolor='none', linewidth=0, alpha=0.95)
     
-    plt.bar(graphDf['도서 제목'], graphDf['대출 횟수'], color=barColor)
-    plt.xlabel('도서명')
-    plt.ylabel('대출 횟수')
-    plt.xticks(rotation=45)
-    plt.ylim(0, max(graphDf['대출 횟수']) + 100)
-    # 막대 위에 대출 횟수 표시
-    for idx, value in enumerate(graphDf['대출 횟수']):
-        plt.text(idx, value + 5, str(value), ha='center', va='bottom', fontsize=10)
+    # 각 막대 위에 대출 횟수 표시
+    for idx, value in enumerate(y):
+        plt.text(idx, value + max(y) * 0.03, str(value), ha='center', va='bottom', fontsize=13, fontweight='bold', color=bar_color)
+
+    plt.xticks(x, bookNameDataForGraph, fontsize=13, rotation=13)
+    plt.yticks(fontsize=12)
+    plt.title(f"{eventDate} 대출 도서 TOP 5", fontsize=18, fontweight='bold', color=bar_color, pad=18)
+    plt.xlabel("도서 제목", fontsize=14, labelpad=10)
+    plt.ylabel("대출 횟수", fontsize=14, labelpad=10)
+    plt.grid(axis='y', linestyle='--', alpha=0.18)
     plt.tight_layout()
-    plt.savefig(graphImageURL, dpi=300, bbox_inches='tight')
+    plt.gca().spines[['top', 'right', 'left', 'bottom']].set_visible(False)
+
+    plt.savefig(graphImageURL, dpi=300, bbox_inches='tight', transparent=True)
+    plt.close() 
 
     # DB에 데이터 추가
     insert_sql = """
@@ -152,7 +166,8 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
     result["docs"]["graphImageURL"] = graphImageURL
     print(f"그래프 생성 완료: {graphImageURL}")
 
-
+    if isinstance(result["docs"]["eachBookData"], list):
+        result["docs"]["eachBookData"] = json.dumps(result["docs"]["eachBookData"], ensure_ascii=False)
 
 
     return result

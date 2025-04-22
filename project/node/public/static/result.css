@@ -86,13 +86,13 @@ body {
 }
 .book-card-top1 {
     position: relative;
-    width: 260px;
-    min-height: 260px;
+    width: 200px;
+    min-height: 200px;
     z-index: 2;
     background: #fffbe6;
     box-shadow: 0 8px 30px rgba(162, 89, 255, 0.14);
     border: 2.5px solid #ffd700;
-    transform: translateY(10px) scale(1.13);
+    /* transform: translateY(10px) scale(1.13); */
     margin-bottom: 18px;
     margin-left: auto;
     margin-right: auto;
