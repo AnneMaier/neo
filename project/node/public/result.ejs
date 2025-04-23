@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/result.css">
-    <script src="/static/flyingBook.js" defer></script>
+    <link rel="stylesheet" href="/static/css.css">
+    <!-- <script src="/static/flyingBook.js" defer></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/loanChart.js" defer></script>
 </head>
@@ -126,7 +126,7 @@
             // 상단 안내문구: 책이름, 위치, 도서관 수
             if (libraries.length > 0) {
                 modalHtml += `<div style="text-align:center; font-size:1.13rem; font-weight:600; margin-bottom:16px; color:#222;">
-                    '<span style='color:#7a3dfc;'>${bookName}</span>'은(는)
+                    '<span style='color:#7a3dfc;'>${bookName}</span>'은(는)<br>
                     사용자가 현재 계신 <span style='color:#a259ff;font-weight:700;'>${userAddr}</span>의<br>
                     총 <span style='color:#7a3dfc;'>${libraries.length-1}</span>개의 도서관에서 소장 중입니다.
                 </div>`;

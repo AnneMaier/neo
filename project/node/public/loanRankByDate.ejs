@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사건일 기반 도서 대출 횟수 비교</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css.css">
+    <script src="https://kit.fontawesome.com/2a2c9e6d90.js" crossorigin="anonymous"></script>
+    <script src="/static/flyingBook.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon"><i class="fa-solid fa-calendar-days"></i></div>
+            <div class="title-group">
+                <div class="main-title">사건일 기반 도서 대출 횟수 비교</div>
+                <div class="subtitle">가장 많이 분석된 날짜 TOP 6</div>
+            </div>
+        </div>
+
+        <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
+            <form method="get" action="/viewAnalysis" style="display:flex;flex-direction:column;gap:16px;align-items:center;">
+                <label for="eventDate" style="font-size:1.08rem;color:#7a6ad8;font-weight:600;">날짜를 선택하세요:</label>
+                <input type="date" id="eventDate" name="eventDate" max="2025-06-20" min="1970-01-01" style="padding:7px 12px;font-size:1rem;border:1.5px solid #a259ff;border-radius:6px;outline:none;">
+                <input type="submit" value="분석하기" class="btn-primary" style="width:120px;">
+            </form>
+        </div>
+
+        <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
+            <div class="top6-title" style="text-align:center;color:#a259ff;font-size:1.18rem;font-weight:700;margin-bottom:16px;letter-spacing:0.5px;">조회수 TOP 6 사건일</div>
+            <ul class="books-list" style="flex-direction:column;gap:10px;">
+                <% top6Dates.forEach((item, idx) => { %>
+                    <li style="display:flex;justify-content:space-between;align-items:center;background:#faf9fd;border-radius:8px;padding:13px 18px;font-size:1.06rem;color:#222;font-weight:500;box-shadow:0 1px 6px rgba(160,89,255,0.04);">
+                        <span style="font-weight:600;color:#7a6ad8;"><%= idx+1 %>. <%= item.EVENT_DATE %></span>
+                        <span style="font-size:1rem;color:#a259ff;"><i class="fa-solid fa-eye"></i> <%= item.VIEW_COUNT %>회</span>
+                    </li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            const top6Dates = <%- JSON.stringify(top6Dates) %>;
+            console.log(top6Dates);
+        })
+    </script>
+</body>
+</html>
