@@ -10,9 +10,9 @@
   letter-spacing: 0.04em;
 }
 .big-title {
-  font-size: 4.2rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #222;
+  color: #e80505;
   line-height: 1.05;
   margin: 18px 0 18px 0;
 }
@@ -53,31 +53,70 @@
 .form-label {
   color: #000000;
   font-weight: 700;
-  font-size: 4rem;
+  font-size: 2.5rem;
   margin-bottom: 10px;
   margin-top: 50px;
   display: block;
   text-align: center;
 }
 
-#searchForm select,
+#searchForm select {
+  display: block;
+  margin: 40px auto 24px auto;
+  width: 25%;
+  height: 60px;
+  border-radius: 10px;
+  background: #fff;
+  color: #222;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 500;
+  border: 1.5px solid #ddd;
+  box-shadow: 0 2px 8px rgba(160,89,255,0.07);
+  padding-left: 20px;
+  outline: none;
+  transition: border .18s, box-shadow .18s;
+  text-align: left;
+  text-align-last: left;
+}
+#searchForm select:focus {
+  border: 1.5px solid #ff9900;
+  box-shadow: 0 4px 18px rgba(255,153,0,0.13);
+}
+.submit-btn {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  width: 23%;
+  height: 75px;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 600;
+  margin: 0 auto 32px auto;
+  margin-top: 440px;
+  display: block;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  box-shadow: 0 2px 8px rgba(160,89,255,0.07);
+  margin-top: 200px;
+  font-size: 1.3rem;
+}
+.submit-btn:hover {
+  background: #ff9900;
+  color: #222;
+}
+
 #searchForm input[type='date'] {
   padding: 8px 50px;
   font-size: 1.05rem;
   border-radius: 7px;
   outline: none;
-  display: flex;
   margin-left: 40%;
+  text-align: left;
+  text-align-last: left;
 }
 
-.submit-btn {
-  background: red;
-  width: 50%;
-}
-
-#searchForm input[type='submit']:hover {
-  background: linear-gradient(90deg, #6A82FB, #A259FF);
-}
 #result-area {
   margin-top: 32px;
   width: 100%;
@@ -168,7 +207,6 @@
 }
 .dropdown-submit-btn {
   width: 92%;
-  margin: 28px auto 0 auto;
   background: #fff;
   color: #6b6552;
   border: 1.5px solid #ded8ce;
