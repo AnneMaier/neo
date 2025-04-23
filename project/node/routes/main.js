@@ -31,7 +31,7 @@ app.get('/Hello', (req, res) => {
 app.get('/loanRankByDate', async (req, res) => {
     
     const top6Dates= connection.query("SELECT EVENT_DATE, VIEW_COUNT, EVENT_NAME, EVENT_THUMBNAIL_URL FROM analysisdata ORDER BY VIEW_COUNT DESC LIMIT 6;");
-    res.render('loanRankByDate', { top6Dates });
+    res.render('pages/event/eventAnalysis', { top6Dates });
 })
 
 app.get('/viewAnalysis', async (req, res) => {
@@ -44,7 +44,7 @@ app.get('/viewAnalysis', async (req, res) => {
         let eachBookData = JSON.parse(data.docs.eachBookData);
         let viewCount = data.docs.viewCount;
         let kakao_apiKey = process.env.kakao_apiKey;
-        res.render('result', { graphImageURL, eachBookData, viewCount, eventDate, kakao_apiKey });
+        res.render('pages/event/analysisResult', { graphImageURL, eachBookData, viewCount, eventDate, kakao_apiKey });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data');
@@ -65,15 +65,19 @@ app.post('/checkBookState', async (req, res) => {
     }
 })  
 
-// insert data to st_info table
-app.get('/insert', (req, res) => {
-    const { st_id, name, dept } = req.query;
-    const result = connection.query("insert into st_info values (?, ?, ?)",
-        [st_id, name, dept]);
-        res.redirect('/select');
-})
-
-
-// insert data to st_info table
+app.get('/genre-change', async (req, res) => {
+    const { ageGroup, startDt, endDt } = req.query;
+    console.log(ageGroup, startDt, endDt)
+    try {
+        const FASTAPI_URL = process.env.FASTAPI_URL || 'http://192.168.1.21:3000/genre-change/';
+        const response = await axios.get(FASTAPI_URL, {
+            params: { ageGroup, startDt, endDt }
+        });
+        res.json(response.data);
+    } catch (err) {
+        console.error('FastAPI 연동 오류:', err.message);
+        res.status(500).json({ error: 'FastAPI 연동 실패', detail: err.message });
+    }
+});
 
 module.exports = app;
