@@ -3,56 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Mate - 연령별 독서 분석</title>
+    <title>Books For All</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
     <link href="/static/css/ageAnalysis.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="/static/css/main.css" rel="stylesheet">
 </head>
 <body>
     <div class="navbar">
         <div class="nav-left">
-            <div class="logo"></div>
-            <div class="nav-menu">
-                <a href="/index.html">Home</a>
-                <a href="/pages/age/ageAnalysis.html">Book Trend</a>
-                <a href="/loanRankByDate">Event Analysis</a>
-            </div>
+          <div class="nav-menu">
+            <a href="/index.html">Home</a>
+            <a href="/pages/age/ageAnalysis.html">Book Trend</a>
+            <a href="/loanRankByDate">Event Analysis</a>
+          </div>
         </div>
-        <div class="nav-right"></div>
+      </div>
+    <form id="searchForm" method="get">
+        <div class="form-label">어떤 세대의 독서 성향을 확인할까요?</div>
+        <select name="ageGroup" id="ageGroup">
+            <option value="17">Z세대 후반 (17~21세)</option>
+            <option value="22">Z세대 중심 (22~26세)</option>
+            <option value="27">밀레니얼 후반 (27~31세)</option>
+            <option value="32">밀레니얼 중반 (32~36세)</option>
+            <option value="37">밀레니얼 초반 (37~41세)</option>
+        </select>
+        <button class="submit-btn">조회</button>
+    </form>
+    <div id="graph-container" style="max-width: 500px; margin: 40px auto 0 auto; text-align:center;">
+      <canvas id="genreChart" width="1800" height="350"></canvas>
     </div>
-    <div class="main-content">
-        <div class="age-analysis-card" style="max-width:540px;margin:0 auto 32px auto;background:#fff;border-radius:16px;box-shadow:0 2px 8px rgba(160,89,255,0.07);padding:32px 24px;">
-            <form id="searchForm" method="get">
-                <div class="dropdown-card">
-                    <div class="dropdown-header">
-                        <span class="dropdown-title">세대별 분석</span>
-                        <span class="dropdown-icon"><i class="fa fa-cog"></i></span>
-                    </div>
-                    <select name="ageGroup" id="ageGroup" class="dropdown-menu-select">
-                        <option value="17">Z세대 후반 (17~21세)</option>
-                        <option value="22">Z세대 중심 (22~26세)</option>
-                        <option value="27">밀레니얼 후반 (27~31세)</option>
-                        <option value="32">밀레니얼 중심 (32~36세)</option>
-                        <option value="37">X세대 (37~46세)</option>
-                    </select>
-                    <button type="submit" class="dropdown-submit-btn"><i class="fa fa-chart-bar"></i> 분석하기</button>
-                </div>
-            </form>
-        </div>
-        <div id="result-area" style="max-width:700px;margin:0 auto;"></div>
-    </div>
-    <script>
-    // 예시: AJAX로 결과 불러오기 (실제 구현에 맞게 수정)
-    document.getElementById('searchForm').onsubmit = async function(e) {
-        e.preventDefault();
-        const ageGroup = document.getElementById('ageGroup').value;
-        const startDt = document.getElementById('startDt').value;
-        const endDt = document.getElementById('endDt').value;
-        const res = await fetch(`/genre-change?ageGroup=${ageGroup}&startDt=${startDt}&endDt=${endDt}`);
-        const data = await res.json();
-        document.getElementById('result-area').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-    };
-    </script>
+    <div id="top-books"></div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="/static/js/ageAnalysis.js"></script>

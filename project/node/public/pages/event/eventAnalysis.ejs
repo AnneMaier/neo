@@ -4,65 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사건일 기반 도서 대출 횟수 비교</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css.css">
-    <link rel="stylesheet" href="/static/loanRankByDate.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/css.css">
+    <link rel="stylesheet" href="/static/css/loanRankByDate.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://kit.fontawesome.com/2a2c9d90.js" crossorigin="anonymous"></script>
-    <script src="/static/flyingBook.js"></script>
+    <script src="/static/js/flyingBook.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div style="position:relative; z-index:1;">
-            <div class="header">
-                <div class="header-icon"><i class="fa-solid fa-calendar-days"></i></div>
-                <div class="title-group">
-                    <div class="main-title">사건일 기반 도서 대출 횟수 비교</div>
-                    <div class="subtitle">가장 많이 분석된 날짜 TOP 6</div>
-                </div>
-            </div>
-
-            <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
-                <form method="get" action="/viewAnalysis" style="display:flex;flex-direction:column;gap:16px;align-items:center;">
-                    <label for="eventDate" style="font-size:1.08rem;color:#7a6ad8;font-weight:600;">날짜를 선택하세요:</label>
-                    <input type="date" id="eventDate" name="eventDate" max="2025-06-20" min="1970-01-01" style="padding:7px 12px;font-size:1rem;border:1.5px solid #a259ff;border-radius:6px;outline:none;">
-                    <input type="submit" value="분석하기" class="btn-primary" style="width:120px;">
-                </form>
-            </div>
-
-            <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
-                <div class="top6-title" style="text-align:center;color:#a259ff;font-size:1.18rem;font-weight:700;margin-bottom:16px;letter-spacing:0.5px;">조회수 TOP 6 사건일</div>
+    <div class="navbar">
+      <div class="nav-left">
+        <div class="logo">Book Mate</div>
+        <div class="nav-menu">
+          <a href="/">Home</a>
+          <a href="/pages/age/ageAnalysis.html">Book Trend</a>
+          <a href="/loanRankByDate">Event Analysis</a>
+        </div>
+      </div>
+      <div class="nav-right"></div>
+    </div>
+    <div class="main-content" style="flex-direction:column; align-items:center; gap:32px; min-height:70vh;">
+        <div class="headline" style="padding-left:0; margin-bottom:40px; text-align:center;">
+            <span class="best-choice">사건일 기반 도서 대출 횟수 비교</span>
+            <div class="big-title" style="font-size:2.2rem;">이벤트 분석</div>
+            <div class="desc" style="font-size:1.08rem; margin-top:12px; color:#888;">가장 많이 분석된 날짜 TOP 6</div>
+        </div>
+        <div class="event-flex-row" style="display:flex; flex-direction:row; gap:40px; justify-content:center; align-items:stretch; width:100%; max-width:900px;">
+            <div class="card" style="flex:1; max-width:420px; min-width:320px; margin:0; display:flex; flex-direction:column; justify-content:stretch;">
+                <div class="top6-title" style="text-align:center;color:#2d3057;font-size:1.18rem;font-weight:700;margin-bottom:16px;letter-spacing:0.5px;">조회수 TOP 6 사건일</div>
                 <ul class="books-list" style="flex-direction:column;gap:10px;">
                     <% top6Dates.forEach((item, idx) => { %>
-                        <li style="display:flex;align-items:center;gap:16px;background:#faf9fd;border-radius:8px;padding:13px 18px;font-size:1.06rem;color:#222;font-weight:500;box-shadow:0 1px 6px rgba(160,89,255,0.04);">
-                            <!-- 썸네일 이미지 -->
-                            <img src="<%= item.EVENT_THUMBNAIL_URL %>" alt="썸네일" style="width:56px;height:56px;object-fit:cover;border-radius:6px;box-shadow:0 1px 3px rgba(160,89,255,0.08);">
-                            <!-- 이벤트 이름 및 날짜 (이름에 a링크 추가) -->
+                        <li style="display:flex;align-items:center;gap:32px;background:#fff;border-radius:8px;padding:13px 18px;font-size:1.06rem;color:#222;font-weight:500;box-shadow:0 1px 6px rgba(160,89,255,0.04);">
+                            <img src="<%= item.EVENT_THUMBNAIL_URL %>" alt="썸네일" style="width:112px;height:112px;object-fit:cover;border-radius:12px;box-shadow:0 1px 3px rgba(160,89,255,0.08);">
                             <div style="flex:1;">
-                                <div style="font-weight:600;color:#7a6ad8;">
+                                <div class="event-title" style="font-weight:600;color:#2d3057;">
                                     <%= idx+1 %>. 
-                                    <a href="/viewAnalysis?eventDate=<%= encodeURIComponent(item.EVENT_DATE) %>" style="color:#7a6ad8;text-decoration:none;">
+                                    <a href="/viewAnalysis?eventDate=<%= encodeURIComponent(item.EVENT_DATE) %>" style="color:#2d3057;text-decoration:none;">
                                         <%= item.EVENT_NAME %>
                                     </a>
                                 </div>
-                                <div style="font-size:0.96rem;color:#888;"><%= item.EVENT_DATE %></div>
+                                <div class="event-date" style="font-size:0.96rem;color:#888;"><%= item.EVENT_DATE %></div>
                             </div>
-                            <!-- 조회수 -->
-                            <span style="font-size:1rem;color:#a259ff;white-space:nowrap;"><i class="fa-solid fa-eye"></i> <%= item.VIEW_COUNT %>회</span>
+                            <span class="event-viewcount" style="font-size:1rem;color:#3e4a5b;white-space:nowrap;"><i class="fa-solid fa-eye"></i> <%= item.VIEW_COUNT %>회</span>
                         </li>
                     <% }) %>
                 </ul>
             </div>
-            <!-- 워드클라우드 캔버스(기본 위치로 복구) -->
-            <canvas id="wordcloud" width="500" height="500" style="display:block;margin:30px auto 16px;"></canvas>
+            <div class="card date-card" style="flex:1; max-width:420px; min-width:320px; margin:0; display:flex; flex-direction:column; align-items:center; justify-content:stretch; min-height:100%;">
+                <form method="get" action="/viewAnalysis" style="display:flex;flex-direction:column;gap:16px;align-items:center;width:100%;">
+                    <label for="eventDate" style="font-size:1.08rem;color:#2d3057;font-weight:600;">날짜를 선택하세요:</label>
+                    <div style="width:100%;display:flex;gap:10px;align-items:center;">
+                        <input type="text" id="eventDate" name="eventDate" class="search-box" style="width:100%;padding:18px 12px;font-size:1.25rem;border:1.5px solid #2d3057;border-radius:6px;outline:none;display:block;text-align:center;cursor:pointer;background:#f9f9fb;" autocomplete="off" readonly>
+                        <button type="button" id="calendarBtn" class="signup-btn" style="width:48px;min-width:48px;padding:0 0.5em;font-size:1.25rem;line-height:1.1;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-calendar-days"></i></button>
+                    </div>
+                    <input type="submit" value="분석하기" class="signup-btn" style="width:120px;">
+                </form>
+                <!-- 달력 모달 -->
+                <div id="calendarModal" class="modal-bg" style="display:none;position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(45,48,87,0.13);align-items:center;justify-content:center;">
+                    <div class="modal-content" style="background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(45,48,87,0.19);padding:32px 28px;min-width:320px;max-width:90vw;position:relative;">
+                        <button id="modalCloseBtn" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:1.5rem;color:#888;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+                        <div id="calendar-inline"></div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <canvas id="wordcloud" width="500" height="500" style="display:block;margin:30px auto 16px;"></canvas>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
-    <script src="/static/wordcloud-top6.js"></script>
+    <script src="/static/js/wordcloud-top6.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const top6Dates = <%- JSON.stringify(top6Dates) %>;
             const eventNames = top6Dates.map(item => item.EVENT_NAME);
             window.renderEventNameWordCloud(eventNames);
+
+            // 모달 관련
+            const calendarBtn = document.getElementById('calendarBtn');
+            const calendarModal = document.getElementById('calendarModal');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const eventDateInput = document.getElementById('eventDate');
+            let fp = null;
+
+            function openModal() {
+                calendarModal.style.display = 'flex';
+                if (!fp) {
+                    fp = flatpickr("#calendar-inline", {
+                        dateFormat: "Y-m-d",
+                        maxDate: "2025-06-20",
+                        minDate: "1970-01-01",
+                        locale: "ko",
+                        inline: true,
+                        defaultDate: eventDateInput.value || null,
+                        onChange: function(selectedDates, dateStr) {
+                            eventDateInput.value = dateStr;
+                            calendarModal.style.display = 'none';
+                        }
+                    });
+                } else {
+                    fp.setDate(eventDateInput.value || null, false);
+                }
+            }
+            calendarBtn.addEventListener('click', openModal);
+            eventDateInput.addEventListener('click', openModal);
+            modalCloseBtn.addEventListener('click', function() {
+                calendarModal.style.display = 'none';
+            });
+            calendarModal.addEventListener('click', function(e) {
+                if (e.target === calendarModal) calendarModal.style.display = 'none';
+            });
         });
     </script>
 </body>

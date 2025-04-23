@@ -1,49 +1,3 @@
-body {
-  background: #fff;
-  font-family: 'Montserrat', 'Nanum Gothic', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-.navbar {
-  width: 100%;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  height: 48px;
-  position: relative;
-  z-index: 100;
-}
-.nav-left {
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-}
-.logo {
-  width: 32px;
-  height: 32px;
-  margin-right: 16px;
-}
-.nav-menu a {
-  color: #222;
-  text-decoration: none;
-  font-size: 1rem;
-  margin-right: 22px;
-  padding-bottom: 2px;
-  transition: color 0.18s, border-bottom 0.18s;
-}
-.nav-menu a.active, .nav-menu a:hover {
-  color: #A259FF;
-  border-bottom: 2px solid #A259FF;
-}
-.main-content {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
 .headline {
   flex: 1 1 50%;
   margin-right: 40px;
@@ -69,9 +23,7 @@ body {
   margin-top: 24px;
 }
 .age-analysis-card {
-  background: #fff;
   border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   width: 840px;
   margin: 60px auto 0 auto;
   padding: 0 0 32px 0;
@@ -99,34 +51,30 @@ body {
   box-shadow: 0 4px 18px rgba(160,89,255,0.13);
 }
 .form-label {
-  color: #A259FF;
+  color: #000000;
   font-weight: 700;
-  font-size: 1.13rem;
+  font-size: 4rem;
   margin-bottom: 10px;
+  margin-top: 50px;
   display: block;
   text-align: center;
 }
+
 #searchForm select,
 #searchForm input[type='date'] {
-  padding: 8px 14px;
+  padding: 8px 50px;
   font-size: 1.05rem;
-  border: 1.5px solid #A259FF;
   border-radius: 7px;
   outline: none;
-  margin: 0 4px;
+  display: flex;
+  margin-left: 40%;
 }
-#searchForm input[type='submit'] {
-  background: linear-gradient(90deg, #A259FF, #6A82FB);
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 9px 32px;
-  margin-top: 14px;
-  cursor: pointer;
-  transition: background 0.18s;
+
+.submit-btn {
+  background: red;
+  width: 50%;
 }
+
 #searchForm input[type='submit']:hover {
   background: linear-gradient(90deg, #6A82FB, #A259FF);
 }

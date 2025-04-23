@@ -74,6 +74,7 @@ app.get('/genre-change', async (req, res) => {
             params: { ageGroup, startDt, endDt }
         });
         res.json(response.data);
+        console.log(response.data)
     } catch (err) {
         console.error('FastAPI 연동 오류:', err.message);
         res.status(500).json({ error: 'FastAPI 연동 실패', detail: err.message });
