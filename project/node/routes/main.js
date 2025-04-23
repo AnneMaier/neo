@@ -30,7 +30,7 @@ app.get('/Hello', (req, res) => {
 
 app.get('/loanRankByDate', async (req, res) => {
     
-    const top6Dates= connection.query("SELECT EVENT_DATE, VIEW_COUNT FROM analysisdata ORDER BY VIEW_COUNT DESC LIMIT 6;");
+    const top6Dates= connection.query("SELECT EVENT_DATE, VIEW_COUNT, EVENT_NAME, EVENT_THUMBNAIL_URL FROM analysisdata ORDER BY VIEW_COUNT DESC LIMIT 6;");
     res.render('loanRankByDate', { top6Dates });
 })
 

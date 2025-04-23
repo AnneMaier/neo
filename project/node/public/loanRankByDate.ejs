@@ -6,44 +6,64 @@
     <title>사건일 기반 도서 대출 횟수 비교</title>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css.css">
-    <script src="https://kit.fontawesome.com/2a2c9e6d90.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/loanRankByDate.css">
+    <script src="https://kit.fontawesome.com/2a2c9d90.js" crossorigin="anonymous"></script>
     <script src="/static/flyingBook.js"></script>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="header-icon"><i class="fa-solid fa-calendar-days"></i></div>
-            <div class="title-group">
-                <div class="main-title">사건일 기반 도서 대출 횟수 비교</div>
-                <div class="subtitle">가장 많이 분석된 날짜 TOP 6</div>
+        <div style="position:relative; z-index:1;">
+            <div class="header">
+                <div class="header-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                <div class="title-group">
+                    <div class="main-title">사건일 기반 도서 대출 횟수 비교</div>
+                    <div class="subtitle">가장 많이 분석된 날짜 TOP 6</div>
+                </div>
             </div>
-        </div>
 
-        <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
-            <form method="get" action="/viewAnalysis" style="display:flex;flex-direction:column;gap:16px;align-items:center;">
-                <label for="eventDate" style="font-size:1.08rem;color:#7a6ad8;font-weight:600;">날짜를 선택하세요:</label>
-                <input type="date" id="eventDate" name="eventDate" max="2025-06-20" min="1970-01-01" style="padding:7px 12px;font-size:1rem;border:1.5px solid #a259ff;border-radius:6px;outline:none;">
-                <input type="submit" value="분석하기" class="btn-primary" style="width:120px;">
-            </form>
-        </div>
+            <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
+                <form method="get" action="/viewAnalysis" style="display:flex;flex-direction:column;gap:16px;align-items:center;">
+                    <label for="eventDate" style="font-size:1.08rem;color:#7a6ad8;font-weight:600;">날짜를 선택하세요:</label>
+                    <input type="date" id="eventDate" name="eventDate" max="2025-06-20" min="1970-01-01" style="padding:7px 12px;font-size:1rem;border:1.5px solid #a259ff;border-radius:6px;outline:none;">
+                    <input type="submit" value="분석하기" class="btn-primary" style="width:120px;">
+                </form>
+            </div>
 
-        <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
-            <div class="top6-title" style="text-align:center;color:#a259ff;font-size:1.18rem;font-weight:700;margin-bottom:16px;letter-spacing:0.5px;">조회수 TOP 6 사건일</div>
-            <ul class="books-list" style="flex-direction:column;gap:10px;">
-                <% top6Dates.forEach((item, idx) => { %>
-                    <li style="display:flex;justify-content:space-between;align-items:center;background:#faf9fd;border-radius:8px;padding:13px 18px;font-size:1.06rem;color:#222;font-weight:500;box-shadow:0 1px 6px rgba(160,89,255,0.04);">
-                        <span style="font-weight:600;color:#7a6ad8;"><%= idx+1 %>. <%= item.EVENT_DATE %></span>
-                        <span style="font-size:1rem;color:#a259ff;"><i class="fa-solid fa-eye"></i> <%= item.VIEW_COUNT %>회</span>
-                    </li>
-                <% }) %>
-            </ul>
+            <div class="card" style="max-width:420px;margin:0 auto 24px auto;">
+                <div class="top6-title" style="text-align:center;color:#a259ff;font-size:1.18rem;font-weight:700;margin-bottom:16px;letter-spacing:0.5px;">조회수 TOP 6 사건일</div>
+                <ul class="books-list" style="flex-direction:column;gap:10px;">
+                    <% top6Dates.forEach((item, idx) => { %>
+                        <li style="display:flex;align-items:center;gap:16px;background:#faf9fd;border-radius:8px;padding:13px 18px;font-size:1.06rem;color:#222;font-weight:500;box-shadow:0 1px 6px rgba(160,89,255,0.04);">
+                            <!-- 썸네일 이미지 -->
+                            <img src="<%= item.EVENT_THUMBNAIL_URL %>" alt="썸네일" style="width:56px;height:56px;object-fit:cover;border-radius:6px;box-shadow:0 1px 3px rgba(160,89,255,0.08);">
+                            <!-- 이벤트 이름 및 날짜 (이름에 a링크 추가) -->
+                            <div style="flex:1;">
+                                <div style="font-weight:600;color:#7a6ad8;">
+                                    <%= idx+1 %>. 
+                                    <a href="/viewAnalysis?eventDate=<%= encodeURIComponent(item.EVENT_DATE) %>" style="color:#7a6ad8;text-decoration:none;">
+                                        <%= item.EVENT_NAME %>
+                                    </a>
+                                </div>
+                                <div style="font-size:0.96rem;color:#888;"><%= item.EVENT_DATE %></div>
+                            </div>
+                            <!-- 조회수 -->
+                            <span style="font-size:1rem;color:#a259ff;white-space:nowrap;"><i class="fa-solid fa-eye"></i> <%= item.VIEW_COUNT %>회</span>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+            <!-- 워드클라우드 캔버스(기본 위치로 복구) -->
+            <canvas id="wordcloud" width="500" height="500" style="display:block;margin:30px auto 16px;"></canvas>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+    <script src="/static/wordcloud-top6.js"></script>
     <script>
-        window.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const top6Dates = <%- JSON.stringify(top6Dates) %>;
-            console.log(top6Dates);
-        })
+            const eventNames = top6Dates.map(item => item.EVENT_NAME);
+            window.renderEventNameWordCloud(eventNames);
+        });
     </script>
 </body>
 </html>

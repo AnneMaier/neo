@@ -124,7 +124,7 @@ async def getInfo(eventDate : Optional[str] = Query(default=datetime.now().strft
 
     # 그래프 생성
 
-    graphImageURL = os.path.join("graphs/", f"{eventDate}.png")
+    graphImageURL = os.path.join("../images/graphs", f"{eventDate}.png")
     plt.figure(figsize=(12, 6))
     plt.rcParams['font.family'] = 'NanumBarunGothic'
     plt.rcParams['axes.edgecolor'] = '#f3eaff'

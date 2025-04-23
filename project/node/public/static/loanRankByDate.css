@@ -109,6 +109,13 @@ input[type="submit"]:hover {
     background: #e9f3fb;
 }
 
+.books-list li {
+  transition: background 0.18s;
+}
+.books-list li:has(a:hover), .books-list li:hover {
+  background: #e5e1f3 !important;
+}
+
 .top6-date {
     font-weight: 600;
     color: #357ae8;
