@@ -10,6 +10,8 @@ from fastapi import FastAPI, Query
 from typing import Optional
 import urllib
 from pydantic import BaseModel
+import httpx
+import asyncio
 
 GRAPHS_DIR = os.path.dirname("/work/neo/project/api/graphs/")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.relpath("./")))
@@ -200,14 +202,14 @@ async def checkBookState(request: BookStateRequest):
     cursor.close()
     # 이하 기존 로직...
 
-    API_URL = "http://data4library.kr/api/libSrchByBook?authKey=" 
-    API_URL += get_secret("doseonaru_apiKey")   
-    API_URL += "&isbn=" + isbn13 
-    API_URL += "&region=" + regionData
-    API_URL += "&dtl_region=" + detailedRegionData
-    API_URL += "&format=json"
-    API_URL += "&pageNO=1"
-    API_URL += "&pageSize=100"
+    API_URL = "http://data4library.kr/api/libSrchByBook?authKey=" \
+        + get_secret("doseonaru_apiKey") \
+        + "&isbn=" + isbn13 \
+        + "&region=" + regionData \
+        + "&dtl_region=" + detailedRegionData \
+        + "&format=json" \
+        + "&pageNO=1" \
+        + "&pageSize=100"
 
     response = requests.get(API_URL)
     try:
@@ -225,34 +227,28 @@ async def checkBookState(request: BookStateRequest):
         eachLibraryDict['address'] = library['lib']['address']
         eachLibraryDict['tel'] = library['lib']['tel']
         searchedLibraryData.append(eachLibraryDict)
-    print(searchedLibraryData)
-
     
-    # 수집된 도서관 코드로 대출 가능 여부 조회
+    # 수집된 도서관 코드로 대출 가능 여부 조회 (비동기 개선)
     API_URL = "http://data4library.kr/api/bookExist"
     API_URL += "?authKey=" + get_secret("doseonaru_apiKey")
     API_URL += "&isbn13=" + isbn13
     API_URL += "&format=json"
 
-    for library in searchedLibraryData:
+    async def fetch_loanable(library):
         CALL_API_URL = API_URL + "&libCode=" + library['libCode']
-        response = requests.get(CALL_API_URL)
-        data = response.json()
-        print(data)
-        if data['response']['result']['hasBook'] == "Y":
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(CALL_API_URL)
+            data = resp.json()
             try:
                 bookstate = data['response']['result']
-                if bookstate['loanAvailable'] == "Y":
-                    library['isLoanable'] = True
-                else:
-                    library['isLoanable'] = False
+                library['isLoanable'] = bookstate.get('loanAvailable') == "Y"
             except KeyError:
                 library['isLoanable'] = "확인 불가"
-    
-    print(searchedLibraryData)
+        return library
+
+    tasks = [fetch_loanable(library) for library in searchedLibraryData]
+    searchedLibraryData = await asyncio.gather(*tasks)
 
     result = {"statusCode": 200, "message": "정상적으로 조회되었습니다.", "docs": {"searchedLibraryData": searchedLibraryData}}
 
-
     return result
-    
