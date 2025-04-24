@@ -1,7 +1,24 @@
 {
   "posters": [
-    { "url": "https://www.kocis.go.kr/CONTENTS/editImage/usr_1719367655636.jpg" },
-    { "url": "https://flexible.img.hani.co.kr/flexible/normal/350/495/imgdb/original/2023/0612/20230612502263.webp" },
-    { "url": "https://cdn.munhakin.kr/news/photo/202405/3542_4628_1929.jpg" }
+      {
+          "url": "https://www.kocis.go.kr/CONTENTS/editImage/usr_1719367655636.jpg",
+          "title": "후이눔 서울 도서전"
+      },
+      {
+          "url": "https://flexible.img.hani.co.kr/flexible/normal/350/495/imgdb/original/2023/0612/20230612502263.webp",
+          "title": "서울 국제 도서전: 비인간"
+      },
+      {
+          "url": "https://d8nffddmkwqeq.cloudfront.net/store/abe3dec2%2C7078%2C492c%2C94be%2C2b2b7aed3980",
+          "title": "서울 국제 도서전 : 믿을 구석"
+      },
+      {
+          "url": "https://img.khan.co.kr/news/2024/10/09/news-p.v1.20241009.3e63ffee048b41f1ac5a8dec792758cd_P2.webp",
+          "title": "대구 인기 도서전"
+      },
+      {
+          "url": "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202311/01/309a495c-0cd6-42c1-9539-4d537a4c1bc6.jpg",
+          "title": "무한한 상상력"
+      }
   ]
 }

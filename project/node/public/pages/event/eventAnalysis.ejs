@@ -16,9 +16,11 @@
 <body>
     <div class="ad-banner ad-left">
       <img src="" alt="도서전 포스터" style="width:100%;border-radius:10px;">
+      <div class="banner-caption"></div>
     </div>
     <div class="ad-banner ad-right">
       <img src="" alt="도서전 포스터" style="width:100%;border-radius:10px;">
+      <div class="banner-caption"></div>
     </div>
     <div class="navbar">
       <div class="nav-left">
@@ -131,12 +133,14 @@
         .then(res => res.json())
         .then(posters => {
           if (posters.length > 0) {
-            // 좌/우 각각 랜덤 포스터 (중복 가능)
-            const left = posters[Math.floor(Math.random()*posters.length)].url;
-            const right = posters[Math.floor(Math.random()*posters.length)].url;
-            console.log(left, right);
-            document.querySelector('.ad-left img').src = left;
-            document.querySelector('.ad-right img').src = right;
+            const leftPoster = posters[Math.floor(Math.random() * posters.length)];
+            const rightPoster = posters[Math.floor(Math.random() * posters.length)];
+
+            document.querySelector('.ad-left img').src = leftPoster.url;
+            document.querySelector('.ad-left .banner-caption').textContent = leftPoster.title;
+
+            document.querySelector('.ad-right img').src = rightPoster.url;
+            document.querySelector('.ad-right .banner-caption').textContent = rightPoster.title;
           }
         });
     </script>
