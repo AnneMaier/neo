@@ -7,12 +7,17 @@ fetch('http://192.168.1.28:5000/posters')
         idx === self.findIndex(p => p.url === poster.url)
     );
 
-    function setBanner(selector, poster) {
+    // 3가지 컬러 반복 적용
+    const colors = ['#c00b0b', '#1f355d', '#ffbe3b'];
+
+    function setBanner(selector, poster, colorIdx) {
       const banner = document.querySelector(selector);
-      banner.innerHTML = `
-        <img src="${poster.url}" alt="포스터">
-        <div class="banner-caption">${poster.title || ''}</div>
-      `;
+      const imgBox = banner.querySelector('.poster-img-box');
+      const caption = banner.querySelector('.banner-caption');
+      imgBox.innerHTML = `<img src="${poster.url}" alt="포스터">`;
+      imgBox.style.setProperty('--poster-bg', colors[colorIdx % 3]);
+      caption.textContent = poster.title || '';
+      caption.style.color = "#222"
     }
     if (uniquePosters.length > 1) {
         let leftIdx = Math.floor(Math.random() * uniquePosters.length);
@@ -21,8 +26,8 @@ fetch('http://192.168.1.28:5000/posters')
           rightIdx = Math.floor(Math.random() * uniquePosters.length);
         } while (rightIdx === leftIdx);
       
-        setBanner('.ad-left', uniquePosters[leftIdx]);
-        setBanner('.ad-right', uniquePosters[rightIdx]);
+        setBanner('.ad-left', uniquePosters[leftIdx], 0);
+        setBanner('.ad-right', uniquePosters[rightIdx], 1);
       }
     function updateBannerPosition() {
       const scrollY = window.scrollY || window.pageYOffset;

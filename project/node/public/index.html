@@ -10,15 +10,14 @@
 <body>
       <div class="navbar">
         <div class="nav-left">
-          <div class="logo"></div>
-          <div class="nav-menu">
-            <a href="index.html">Home</a>
-            <a href="pages/age/ageAnalysis.html">Book Trend</a>
-            <a href="/loanRankByDate">Event Analysis</a>
-            <!-- <a href="#">About us</a> -->
+          <div class="logo">
+            <a href="index.html">Book Mate</a>
           </div>
-        </div>
-        <div class="nav-right">
+          <div class="nav-menu">
+            <a href="pages/age/ageAnalysis.html">Book Trend</a>
+            <a href="/loanRankByDate">Date Analysis</a>
+            <a href="/pages/event/eventList.html">Event List</a>
+          </div>
         </div>
       </div>
       <div class="main-content">
@@ -31,9 +30,9 @@
           </div>
         </div>
         <div class="books">
-          <div class="book classic"><span class="plus"></span>CLASSIC</div>
-          <div class="book modern"><span class="plus"></span>MODERN ART</div>
-          <div class="book nonfiction"><span class="plus"></span>NONFICTION</div>
+          <div class="book BookTrend" onclick="location.href='pages/age/ageAnalysis.html';"><span class="plus"></span>Book Trend</div>
+          <div class="book DateAnalysis" onclick="location.href='/loanRankByDate';"><span class="plus"></span>Date Analysis</div>
+          <div class="book nonfiction" onclick="location.href='/pages/event/eventList.html';"><span class="plus"></span>Event List</div>
         </div>
       </div>
 </body>

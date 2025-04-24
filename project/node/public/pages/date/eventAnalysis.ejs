@@ -6,33 +6,34 @@
     <title>사건일 기반 도서 대출 횟수 비교</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/main.css">
-    <link rel="stylesheet" href="/static/css/css.css">
+    <!-- <link rel="stylesheet" href="/static/css/css.css"> -->
     <link rel="stylesheet" href="/static/css/loanRankByDate.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://kit.fontawesome.com/2a2c9d90.js" crossorigin="anonymous"></script>
     <script src="/static/js/banner.js"></script>
     <link rel="stylesheet" href="/static/css/banner.css">
+    <script src="/static/js/flatpickr.min.js"></script>
+    <link rel="stylesheet" href="/static/css/flatpickr.min.css">
 </head>
 <body>
-    <div class="ad-banner ad-left">
-      <img src="" alt="도서전 포스터" style="width:100%;border-radius:10px;">
-      <div class="banner-caption"></div>
-    </div>
-    <div class="ad-banner ad-right">
-      <img src="" alt="도서전 포스터" style="width:100%;border-radius:10px;">
-      <div class="banner-caption"></div>
-    </div>
     <div class="navbar">
-      <div class="nav-left">
-        <div class="logo">Book Mate</div>
-        <div class="nav-menu">
-          <a href="/">Home</a>
-          <a href="/pages/age/ageAnalysis.html">Book Trend</a>
-          <a href="/loanRankByDate">Event Analysis</a>
+        <div class="nav-left">
+          <div class="logo">
+            <a href="index.html">Book Mate</a>
+          </div>
+          <div class="nav-menu">
+            <a href="pages/age/ageAnalysis.html">Book Trend</a>
+            <a href="/loanRankByDate">Date Analysis</a>
+            <a href="/pages/event/eventList.html">Event List</a>
+          </div>
         </div>
       </div>
-      <div class="nav-right"></div>
-    </div>
+      <div class="ad-banner ad-left">
+        <div class="poster-img-box"></div>
+        <div class="banner-caption"></div>
+      </div>
+      <div class="ad-banner ad-right">
+        <div class="poster-img-box"></div>
+        <div class="banner-caption"></div>
+      </div>
     <div class="main-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh; margin-bottom:56px;">
         <div class="top6-title" style="text-align:center;color:#2d3057;font-size:1.85rem;font-weight:800;margin-bottom:24px;letter-spacing:0.5px; margin-top:56px;">이벤트가 만든 도서관 대출 변화, 지금 확인하세요!</div>
         <!-- 날짜 선택 버튼 -->
@@ -90,39 +91,70 @@
         color: #222 !important;
     }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        // 반드시 전역에 선언! (중복 방지)
+        let fp;
         document.addEventListener('DOMContentLoaded', function() {
-            // 모달 관련
             const calendarBtn = document.getElementById('calendarBtn');
             const calendarModal = document.getElementById('calendarModal');
             const modalCloseBtn = document.getElementById('modalCloseBtn');
             const eventDateInput = document.getElementById('eventDateInput');
-            let fp = null;
 
             function openModal() {
                 calendarModal.style.display = 'flex';
-                if (!fp) {
-                    fp = flatpickr("#calendar-inline", {
-                        dateFormat: "Y-m-d",
-                        maxDate: "2025-06-20",
-                        minDate: "1970-01-01",
-                        locale: "ko",
-                        inline: true,
-                        defaultDate: null,
-                        onChange: function(selectedDates, dateStr) {
+                console.log('openModal 실행됨');
+                const calendarDiv = document.getElementById('calendar-inline');
+                console.log('calendarDiv:', calendarDiv);
+                const today = new Date();
+                const twoWeeksAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 14);
+                const yyyy = twoWeeksAgo.getFullYear();
+                const mm = String(twoWeeksAgo.getMonth() + 1).padStart(2, '0');
+                const dd = String(twoWeeksAgo.getDate()).padStart(2, '0');
+                const twoWeeksAgoStr = `${yyyy}-${mm}-${dd}`;
+                if (fp) {
+                    fp.destroy(); // 기존 인스턴스 제거
+                    fp = null;
+                }
+                console.log('flatpickr 새로 초기화!');
+                fp = flatpickr("#calendar-inline", {
+                    inline: true,
+                    dateFormat: "Y-m-d",
+                    defaultDate: twoWeeksAgoStr,
+                    maxDate: twoWeeksAgoStr,
+                    onChange: function(selectedDates, dateStr) {
+                        if (dateStr > twoWeeksAgoStr) {
+                            alert(`금일로부터 2주 전(${twoWeeksAgoStr}) 이후의 날짜는 선택할 수 없습니다! ${twoWeeksAgoStr} 보다 이전 날짜를 선택해주세요.`);
+                            fp.setDate(twoWeeksAgoStr, true);
+                        } else {
                             eventDateInput.value = dateStr;
                         }
-                    });
-                } else {
-                    fp.setDate(null, false);
-                }
+                    },
+                    onMonthChange: function(selectedDates, dateStr, instance) {
+                        const currentMonth = instance.currentMonth;
+                        const currentYear = instance.currentYear;
+                        const twoWeeksAgoDate = new Date(twoWeeksAgoStr);
+                        if (currentYear > twoWeeksAgoDate.getFullYear() ||
+                            (currentYear === twoWeeksAgoDate.getFullYear() && currentMonth > twoWeeksAgoDate.getMonth())) {
+                            alert(`금일로부터 2주 전(${twoWeeksAgoStr}) 이후의 날짜는 선택할 수 없습니다! ${twoWeeksAgoStr} 보다 이전 날짜를 선택해주세요.`);
+                            instance.changeMonth(twoWeeksAgoDate.getMonth() - currentMonth);
+                            instance.changeYear(twoWeeksAgoDate.getFullYear());
+                        }
+                    },
+                    onYearChange: function(selectedDates, dateStr, instance) {
+                        const currentYear = instance.currentYear;
+                        const twoWeeksAgoDate = new Date(twoWeeksAgoStr);
+                        if (currentYear > twoWeeksAgoDate.getFullYear()) {
+                            alert(`금일로부터 2주 전(${twoWeeksAgoStr}) 이후의 날짜는 선택할 수 없습니다! ${twoWeeksAgoStr} 보다 이전 날짜를 선택해주세요.`);
+                            instance.changeYear(twoWeeksAgoDate.getFullYear());
+                        }
+                    }
+                });
             }
-            calendarBtn.addEventListener('click', openModal);
-            modalCloseBtn.addEventListener('click', function() {
+            if (calendarBtn) calendarBtn.addEventListener('click', openModal);
+            if (modalCloseBtn) modalCloseBtn.addEventListener('click', function() {
                 calendarModal.style.display = 'none';
             });
-            calendarModal.addEventListener('click', function(e) {
+            if (calendarModal) calendarModal.addEventListener('click', function(e) {
                 if (e.target === calendarModal) calendarModal.style.display = 'none';
             });
         });
@@ -136,10 +168,10 @@
             const leftPoster = posters[Math.floor(Math.random() * posters.length)];
             const rightPoster = posters[Math.floor(Math.random() * posters.length)];
 
-            document.querySelector('.ad-left img').src = leftPoster.url;
+            document.querySelector('.ad-left .poster-img-box').style.backgroundImage = `url(${leftPoster.url})`;
             document.querySelector('.ad-left .banner-caption').textContent = leftPoster.title;
 
-            document.querySelector('.ad-right img').src = rightPoster.url;
+            document.querySelector('.ad-right .poster-img-box').style.backgroundImage = `url(${rightPoster.url})`;
             document.querySelector('.ad-right .banner-caption').textContent = rightPoster.title;
           }
         });

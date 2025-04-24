@@ -1,8 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Nanum Gothic', Arial, sans-serif;
-    background: #fff !important;
+    /* font-family: 'Nanum Gothic', Arial, sans-serif; */
+    /* background: #fff !important; */
     color: #222;
 }
 .container {
@@ -261,38 +261,47 @@ body {
 }
 
 /* eventAnalysis.ejs 스타일 보강 - main.css와 통일감 */
-.navbar {
+
+  .logo a{
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: -2px;
+    color: black;
+    text-decoration: none;
+  }
+
+  .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 24px 48px 16px 48px;
     border-bottom: 1px solid #353434;
-    background: #fff;
-}
-.nav-left {
+  }
+  .nav-left {
     display: flex;
     align-items: center;
     gap: 32px;
-}
-.logo {
-    font-size: 2rem;
-    font-weight: bold;
-    letter-spacing: -2px;
-}
-.nav-menu {
+  }
+  .nav-menu {
     display: flex;
     gap: 24px;
-}
-.nav-menu a {
+    margin-top: 5px;
+  }
+  .nav-menu a {
     text-decoration: none;
     color: #222;
     font-weight: 500;
     font-size: 1rem;
     transition: color .2s;
-}
-.nav-menu a:hover {
+  }
+  .nav-menu a:hover {
     color: #ff9900;
-}
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 .signup-btn {
     background: #222;
     color: #fff;

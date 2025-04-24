@@ -31,7 +31,7 @@ app.get('/Hello', (req, res) => {
 app.get('/loanRankByDate', async (req, res) => {
     
     const top6Dates= connection.query("SELECT EVENT_DATE, VIEW_COUNT, EVENT_NAME, EVENT_THUMBNAIL_URL FROM analysisdata ORDER BY VIEW_COUNT DESC LIMIT 6;");
-    res.render('pages/event/eventAnalysis', { top6Dates });
+    res.render('pages/date/eventAnalysis', { top6Dates });
 })
 
 app.get('/viewAnalysis', async (req, res) => {
@@ -44,7 +44,7 @@ app.get('/viewAnalysis', async (req, res) => {
         let eachBookData = JSON.parse(data.docs.eachBookData);
         let viewCount = data.docs.viewCount;
         let kakao_apiKey = process.env.kakao_apiKey;
-        res.render('pages/event/analysisResult', { graphImageURL, eachBookData, viewCount, eventDate, kakao_apiKey });
+        res.render('pages/date/analysisResult', { graphImageURL, eachBookData, viewCount, eventDate, kakao_apiKey });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching data');

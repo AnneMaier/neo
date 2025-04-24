@@ -191,9 +191,17 @@ document.addEventListener("DOMContentLoaded", function() {
         if (data.topBooks && data.topBooks.length > 0) {
           let html = '<table class="top-books-table"><thead><tr><th>년도</th><th>장르</th><th>인기 도서</th><th>대출수</th></tr></thead><tbody>';
           data.topBooks.forEach(book => {
+            // 장르가 '문학 > 일본문학 > 소설'처럼 '>'로 구분된 경우 두번째 요소만 표시
+            let genre = book.classNm;
+            if (genre && genre.includes('>')) {
+              const parts = genre.split('>');
+              if (parts.length >= 2) {
+                genre = parts[1].trim();
+              }
+            }
             html += `<tr>
               <td>${book.year}</td>
-              <td>${book.classNm}</td>
+              <td>${genre}</td>
               <td>${book.title}</td>
               <td>${book.loanCount}</td>
             </tr>`;
