@@ -65,11 +65,11 @@ app.post('/checkBookState', async (req, res) => {
     }
 })  
 
-app.get('/genre-change', async (req, res) => {
+app.get('/generation-genre-change', async (req, res) => {
     const { ageGroup, startDt, endDt } = req.query;
     console.log(ageGroup, startDt, endDt)
     try {
-        const FASTAPI_URL = process.env.FASTAPI_URL || 'http://192.168.1.21:3000/genre-change/';
+        const FASTAPI_URL = process.env.FASTAPI_URL || 'http://192.168.1.21:3000/generation-genre-change/';
         const response = await axios.get(FASTAPI_URL, {
             params: { ageGroup, startDt, endDt }
         });

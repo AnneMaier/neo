@@ -20,7 +20,7 @@
           <div class="nav-menu">
             <a href="/pages/age/ageAnalysis.html">Book Trend</a>
             <a href="/loanRankByDate">Date Analysis</a>
-            <a href="/event/eventList.html">Event Analysis</a>
+            <a href="/pages/event/eventList.html">Event Analysis</a>
           </div>
         </div>
       </div>
@@ -74,6 +74,7 @@
             </div>
             <div id="modal-content" class="modal-body" style="padding:20px 24px; overflow-y:auto; max-height:56vh;"></div>
         </div>
+        <div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:999;"></div>
     </div>
     <input id="userAddr" value="서울특별시 서초구 서초2동" type="hidden"></input>
     <script>
@@ -110,6 +111,7 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=kakao_apiKey%>&libraries=services&autoload=false" onload="initKakao()"></script>
     <script>
     function openModal(isbn13, bookName) {
+        document.getElementById('modalOverlay').style.display = 'block';
         document.getElementById('modal').style.display = 'flex';
         // 모달 내용 초기화: 로딩중 + 스피너 표시
         document.getElementById('modal-content').innerHTML = '<div style="text-align:center; padding:32px 0; color:#aaa; font-size:1.18rem;"><i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i>로딩중...</div>';
@@ -174,10 +176,12 @@
 }
         // 모달 닫기
         function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
             document.getElementById('modal').style.display = 'none';
             // 모달 내용 비우기
             document.getElementById('modal-content').innerHTML = '';
         }
+        document.getElementById('modalOverlay').onclick = closeModal;
         // 모든 book-card에 클릭 이벤트 연결
         window.onload = function() {
            
