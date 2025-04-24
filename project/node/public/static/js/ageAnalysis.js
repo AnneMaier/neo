@@ -54,6 +54,17 @@ document.addEventListener("DOMContentLoaded", function() {
           data.datasets[0]
         ];
       }
+
+      // --- 여기서 막대그래프 색상 지정 ---
+      const BAR_COLORS = ['#c00b0b', '#1f355d', '#ffbe3b'];
+      chartDatasets.forEach((ds) => {
+        // dummy dataset은 건너뜀
+        if (ds.label !== 'dummy') {
+          // 각 막대(년도)마다 색상을 다르게 지정
+          ds.backgroundColor = ds.data.map((_, i) => BAR_COLORS[i % BAR_COLORS.length]);
+        }
+      });
+
       if (data.labels && chartDatasets) {
         const ctx = document.getElementById('genreChart').getContext('2d');
         if (genreChart) genreChart.destroy();
@@ -64,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datasets: chartDatasets
           },
           options: {
+            maintainAspectRatio: false,
             plugins: {
               tooltip: {
                 enabled: true,
@@ -73,12 +85,51 @@ document.addEventListener("DOMContentLoaded", function() {
               },
               legend: {
                 position: 'top',
-                labels: { font: { size: 14, family: 'Montserrat' }, color: '#333' }
+                labels: {
+                  font: { size: 14, family: 'Montserrat' },
+                  color: '#333',
+                  generateLabels: function(chart) {
+                    const datasets = chart.data.datasets;
+                    const yearLabels = chart.data.labels;
+                    const legendItems = [];
+                    datasets.forEach((ds, dsIdx) => {
+                      if (ds.label === 'dummy') return;
+                      // 장르명에서 가운데 값만 추출 (예: '문학 > 일본문학 > 소설' -> '일본문학')
+                      const genreParts = ds.label.split('>');
+                      let middleGenre = ds.label;
+                      if (genreParts.length === 3) {
+                        middleGenre = genreParts[1].trim();
+                      }
+                      yearLabels.forEach((year, i) => {
+                        const value = (ds.data || [])[i];
+                        if (value && value !== 0) {
+                          legendItems.push({
+                            text: `${year} - ${middleGenre}`,
+                            fillStyle: Array.isArray(ds.backgroundColor) ? ds.backgroundColor[i] : ds.backgroundColor,
+                            strokeStyle: Array.isArray(ds.backgroundColor) ? ds.backgroundColor[i] : ds.backgroundColor,
+                            hidden: !chart.isDatasetVisible(dsIdx),
+                            lineCap: 'butt',
+                            lineDash: [],
+                            lineDashOffset: 0,
+                            lineJoin: 'miter',
+                            lineWidth: 1,
+                            pointStyle: 'rect',
+                            datasetIndex: dsIdx,
+                            year: year // 정렬용
+                          });
+                        }
+                      });
+                    });
+                    // 년도 오름차순으로 정렬
+                    legendItems.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+                    return legendItems;
+                  }
+                }
               },
               title: {
                 display: true,
                 text: `${ageLabel}의 독서 성향 분석 결과`,
-                font: { size: 24, family: 'Montserrat', weight: 'bold' },
+                font: { size: 24, family: 'Montserrat', weight: 'bold'},
                 color: '#222'
               },
               datalabels: {

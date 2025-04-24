@@ -12,11 +12,11 @@ window.renderLoanChart = function(eachBookData) {
                 label: '대출 횟수',
                 data: data,
                 backgroundColor: [
-                    'rgba(162, 89, 255, 0.35)',
-                    'rgba(255, 99, 132, 0.25)',
-                    'rgba(54, 162, 235, 0.25)',
-                    'rgba(255, 206, 86, 0.25)',
-                    'rgba(75, 192, 192, 0.25)'
+                    'rgba(162, 89, 255, 0.65)',
+                    'rgba(255, 99, 132, 0.55)',
+                    'rgba(54, 162, 235, 0.55)',
+                    'rgba(255, 206, 86, 0.55)',
+                    'rgba(75, 192, 192, 0.55)'
                 ],
                 borderRadius: 18,
                 borderSkipped: false,
@@ -41,7 +41,7 @@ window.renderLoanChart = function(eachBookData) {
                 x: {
                     grid: { display: false },
                     ticks: {
-                        color: '#a259ff',
+                        color: '#000',
                         font: { weight: 'bold', size: 15 },
                         maxRotation: 0,
                         minRotation: 0,

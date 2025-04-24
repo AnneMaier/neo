@@ -474,3 +474,22 @@ body {
     min-width: 300px;
     border-radius: 8px;
 }
+
+.ad-banner {
+  position: fixed;
+  top: 100px;
+  width: 180px;
+  height: 254px;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+.ad-left { left: 56px; }
+.ad-right { right: 56px; }
+@media (max-width: 1100px) {
+  .ad-banner { display: none; }
+}

@@ -10,9 +10,16 @@
     <link rel="stylesheet" href="/static/css/loanRankByDate.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://kit.fontawesome.com/2a2c9d90.js" crossorigin="anonymous"></script>
-    <script src="/static/js/flyingBook.js"></script>
+    <script src="/static/js/banner.js"></script>
+    <link rel="stylesheet" href="/static/css/banner.css">
 </head>
 <body>
+    <div class="ad-banner ad-left">
+      <img src="" alt="도서전 포스터" style="width:100%;border-radius:10px;">
+    </div>
+    <div class="ad-banner ad-right">
+      <img src="" alt="도서전 포스터" style="width:100%;border-radius:10px;">
+    </div>
     <div class="navbar">
       <div class="nav-left">
         <div class="logo">Book Mate</div>
@@ -24,14 +31,17 @@
       </div>
       <div class="nav-right"></div>
     </div>
-    <div class="main-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh;">
+    <div class="main-content" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:70vh; margin-bottom:56px;">
+        <div class="top6-title" style="text-align:center;color:#2d3057;font-size:1.85rem;font-weight:800;margin-bottom:24px;letter-spacing:0.5px; margin-top:56px;">이벤트가 만든 도서관 대출 변화, 지금 확인하세요!</div>
         <!-- 날짜 선택 버튼 -->
-        <button type="button" id="calendarBtn" class="signup-btn" style="margin-bottom:1px; width:30%; font-size:1.25rem; display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 0; border-radius:24px; box-shadow:0 2px 8px rgba(68, 68, 68, 0.06); margin-top:48px;">
+        <button type="button" id="calendarBtn" class="signup-btn" style="margin-bottom:1px; width:30%; font-size:1.25rem; display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 0; border-radius:24px; box-shadow:0 2px 8px rgba(68, 68, 68, 0.06);">
             <i class="fa-solid fa-calendar-days"></i> &nbsp;날짜 직접 선택하기&nbsp;
         </button>
         <!-- 사건일 리스트 -->
-        <div class="event-list-center" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(126, 126, 126, 0.09); padding:48px 36px 56px 36px; min-width:350px; max-width:520px; width:100%; margin:0 auto; display:flex; flex-direction:column; align-items:center;">
-            <div class="top6-title" style="text-align:center;color:#2d3057;font-size:1.25rem;font-weight:700;margin-bottom:24px;letter-spacing:0.5px; margin-top:12px;">조회수 TOP 6 사건일</div>
+        <div class="event-list-center" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px rgba(0, 0, 0, 0.993); padding:48px 36px 56px 36px; min-width:350px; max-width:520px; width:100%; margin:0 auto; display:flex; flex-direction:column; align-items:center;">
+            <div class="top6-desc" style="margin:18px 0 12px 0; text-align:center; font-size:2.13rem; color:#2d3057; font-weight:600; letter-spacing:0.2px;">
+                조회수 기준 TOP 6 이벤트
+            </div>
             <ul class="books-list" style="flex-direction:column;gap:18px;width:100%;">
                 <% top6Dates.forEach((item, idx) => { %>
                     <li style="display:flex;align-items:center;gap:32px;background:#fff;border-radius:8px;padding:18px 20px;font-size:1.13rem;color:#222;font-weight:500;box-shadow:0 1px 6px rgba(160,89,255,0.04);">
@@ -113,6 +123,21 @@
             calendarModal.addEventListener('click', function(e) {
                 if (e.target === calendarModal) calendarModal.style.display = 'none';
             });
+        });
+    </script>
+    <script>
+      // 광고 포스터를 랜덤으로 불러와서 좌우 배너에 적용
+      fetch('http://192.168.1.28:5000/posters')
+        .then(res => res.json())
+        .then(posters => {
+          if (posters.length > 0) {
+            // 좌/우 각각 랜덤 포스터 (중복 가능)
+            const left = posters[Math.floor(Math.random()*posters.length)].url;
+            const right = posters[Math.floor(Math.random()*posters.length)].url;
+            console.log(left, right);
+            document.querySelector('.ad-left img').src = left;
+            document.querySelector('.ad-right img').src = right;
+          }
         });
     </script>
 </body>
