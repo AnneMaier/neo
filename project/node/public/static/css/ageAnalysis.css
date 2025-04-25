@@ -366,18 +366,19 @@ body {
 }
 
 #graph-container {
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto 0 auto; /* 위쪽 마진 0으로 공백 제거 */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  transform: translateX(-75%);
 }
 
 #genreChart {
-  width: 100% !important;
-  max-width: 1400px;
+  width: 250% !important;
+  max-width: 1800px;
   height: 550px !important;
   display: block;
 }

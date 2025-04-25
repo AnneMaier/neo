@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const endDt = range.end;
       // 서버 라우터로 GET 요청 (쿼리스트링)
       const params = new URLSearchParams({ ageGroup, startDt, endDt });
-      const res = await fetch(`/genre-change?${params.toString()}`);
+      const res = await fetch(`/generation-genre-change?${params.toString()}`);
       const data = await res.json();
       console.log('data:', data);
       console.log('labels:', data.labels);
@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
             datasets: chartDatasets
           },
           options: {
+            responsive: false,
             maintainAspectRatio: false,
             plugins: {
               tooltip: {
@@ -171,8 +172,8 @@ document.addEventListener("DOMContentLoaded", function() {
               x: {
                 ticks: { font: { size: 12 }, color: '#222' },
                 grid: { color: '#eee' },
-                categoryPercentage: 0.4,
-                barPercentage: 0.7,
+                categoryPercentage: 0.95,
+                barPercentage: 1.0,
                 stacked: true
               },
               y: {
