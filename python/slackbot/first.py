@@ -1,5 +1,3 @@
-## first.py
-
 from slack_sdk import WebClient
 import os.path
 import json
