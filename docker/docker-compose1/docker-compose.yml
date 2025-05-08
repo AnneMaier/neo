@@ -1,0 +1,41 @@
+## servoce definition
+version: "3.3"
+services:
+  websserver:
+    image: ubuntu
+    ports:
+      -"80:80"
+    networks:
+      -webnet
+    
+  redis:
+    image: redis
+    networks:
+      -webnet
+
+## Network Definition
+networks:
+  webent:
+
+
+## Data Voloue Definition
+Volumes:
+  data-volume:
+
+## Contaimer link
+
+links:
+  - logserver
+  - logserver:log01
+
+## Posrts
+
+ports:
+  - "3000"
+  - "8000:80"
+  - "127.0.0.1:8000:8000"
+
+## exposes
+
+expose:
+  - "3000"  
