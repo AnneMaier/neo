@@ -19,32 +19,6 @@ const users = [
 
 
 
-app.get('/Hello', (req, res) => {
-    res.send('Hello World!!');
-});
-
-// request X, response O
-
-app.get('/api/users', (req, res) => {
-    res.json({ok: true, users : users})
-
-})
-
-// Query string request O, response O
-
-app.get('/api/users/user', (req, res) => {
-    let user = "";
-    const { id , name } = req.query;
-    
-    if (req.query.name == null) {
-        user = users.filter(data => data.id == id);
-    } else {
-        user = users.filter(data => data.id == id && data.name == name);
-    }
-    res.json({ok: false, user : user})
-})
-
-
 // query params (path param) request O, response O
 
 app.get('/api/users/:id', (req, res) => {
