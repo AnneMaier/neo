@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wheathers
+  labels:
+    app: wheathers
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: wheathers
+  template:
+    metadata:
+      labels:
+        app: wheathers
+    spec:
+      containers:
+        - name: wheathers
+          image: hwengdeong/wheathers
+          ports:
+            - containerPort: 8000 # container port(pod port)
