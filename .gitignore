@@ -48,4 +48,4 @@ project/node/package-lock.json
 project/node/package.json
 project/images/*
 
-    
+react/**/node_modules
