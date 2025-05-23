@@ -38,7 +38,7 @@ print(final_datas)
 print(len(final_datas))           
 
 
-with open('result.json', 'w') as f:
+with open('result.jsonl', 'w') as f:
     for entry in final_datas:
         f.write(json.dumps(entry,ensure_ascii=False)+'\n')
             
