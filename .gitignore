@@ -24,11 +24,11 @@ node/**/node_modules
 node/**/package-lock.json
 node/serverless
 
-## python
+## python   
 .idea
 secret.json
-python/**/.venv
-python/**/__pycache__/
+**/.venv
+**/__pycache__/
 
 **/ secret.json
 
@@ -48,4 +48,10 @@ project/node/package-lock.json
 project/node/package.json
 project/images/*
 
+
+
+
 react/**/node_modules
+
+
+ai-1/**/archiv
