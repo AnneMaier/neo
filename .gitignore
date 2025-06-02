@@ -56,3 +56,5 @@ react/**/node_modules
 
 ai-1/**/archiv
 *cookies.txt
+
+**/data/
