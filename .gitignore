@@ -53,7 +53,7 @@ project/images/*
 
 react/**/node_modules
 
-
+**/secret.json/**/
 ai-1/**/archiv
 *cookies.txt
 
