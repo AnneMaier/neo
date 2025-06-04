@@ -29,13 +29,6 @@ except FileNotFoundError:
 except json.JSONDecodeError:
     raise RuntimeError('secret.json file is not valid JSON')
 
-OPENAI_API_KEY = secret["OPENAI_API_KEY"]
-if not OPENAI_API_KEY:
-    raise RecursionError('OPENAI_API_KEY is missing in secret.json')
-
-sys.stderr.write(f"[DEBUG] OPENAI_API_KEY from secret.json: {'sk-...' if OPENAI_API_KEY else 'NOT FOUND'}\n") 
-
-
 client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 
 # Create MCP instance
