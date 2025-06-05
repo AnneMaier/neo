@@ -22,7 +22,7 @@ ax1[0].set_title(stock.get_market_ticker_name('005930') + "주가")
 ax1[0].legend()
 ax1[0].grid()
 
-ax1[1].plot(dates_ss, df_ss['거래량'], color='blue', alpha=0.5, label='거래량')
+ax1[1].bar(dates_ss, df_ss['거래량'], color='blue', alpha=0.5, label='거래량')
 ax1[1].set_xlabel('Date')
 ax1[1].set_ylabel('Volume')
 ax1[1].set_title(stock.get_market_ticker_name('005930') + "거래량")
