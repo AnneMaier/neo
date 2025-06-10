@@ -1,13 +1,12 @@
 import lmstudio as lms
 
-image_path = 'C:\Users\kibwa\Documents\카카오톡 받은 파일\iish.png'
-image_handle = lms.prepare_images(image_path)
+image_path = 'moon.png'
+image_handle = lms.prepare_image(image_path)
 
-model = lms.llm('google/gemma-3-4b-it')
+model = lms.llm('google/gemma-3-4b')
 chat = lms.Chat()
 
-chat.add_user_message("Describe this image please.",
-                      image=image_handle)
+chat.add_user_message("Describe this image please.", images=[image_handle])
 
 prediction = model.respond(chat)
 
