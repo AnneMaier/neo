@@ -59,3 +59,5 @@ ai-1/**/archiv
 
 **/data/
 **/.webui_secret_key
+**/model.safetensors
+**/*.secret
